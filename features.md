@@ -1,5 +1,5 @@
-# play-next
-### A Command Line Utility for managing your progress watching a series
+# Play Next
+### A command line utility for manging your series progress
 
 ---
 

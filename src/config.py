@@ -1,6 +1,17 @@
 import os, json
 from os import path
 
+class Config:
+    def __init__(self, config_dict: dict[str, str]) -> None:
+        self._as_dict = config_dict.copy()
+        self.target_format = config_dict["target_format"]
+        self.default_source_format = config_dict["default_source_format"]
+        self.target_dir = config_dict["target_dir"]
+        self.source_dir = config_dict["source_dir"]
+    
+    def __str__(self) -> str:
+        return str(self._as_dict)
+
 CONFIG_PATH = path.expanduser("~/.play-next.config")
 DEFAULTS: dict[str, str] = {
     "target_dir": path.expanduser("~/Documents/anime/"),
@@ -23,10 +34,9 @@ def prompt_create_config() -> None:
         json.dump(config, f, indent=2)
 
 
-def load_config() -> dict[str, str]:
+def load_config() -> Config:
     if not os.path.exists(CONFIG_PATH):
         prompt_create_config()
     with open(CONFIG_PATH, "r") as f:
         config = json.load(f)
-    return config
-
+    return Config(config)

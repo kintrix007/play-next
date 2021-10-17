@@ -19,7 +19,7 @@ The command line arguements are separated my whitespaces.
   - episode count
   - episode progress in all series
   - favourites
-  - watching status <small>(`unwatched`, `planned`, `watching`, `dropped`, `finished`)</small>
+  - watching status
 - **Eases**
   - opening website of series
   - playing the next episode
@@ -27,11 +27,10 @@ The command line arguements are separated my whitespaces.
 
 ### Arguements
 
-- `--player`, `-p`
-  - only affects 'play' mode
-- `--fav`, `-f`
-- `--rename`, `-r`
-- `--status`, `-s`
+- `--with`, `-w`
+  - only affects 'play' and 'open' mode
+- `--fave`, `-f`
+  - favourite given series
 
 ### Commands
 
@@ -41,20 +40,48 @@ The command line arguements are separated my whitespaces.
   - website
   - original file format
 - `open`
-- `info`
+  - open series website
+- `status <new status>`
+  - sets the status to `new status`. Possible values are:
+    - planned - *default*
+    - watching - *automatically gets set after watching **first** ep*
+    - dropped
+    - finished - *automatically gets set after watching **last** ep*
+- `sync`
+  - sync the symlinks
+- `rename`
+  - make the filenames of the episodes match the convention
 
 ### Contents of `.play.json`
 
+- title: `String`
 - watched: `Int`
 - epCount: `Int?`
 - episodeDir: `FilePath`
 - website: `String?`
 - format: `RegEx` - The format of the downloaded episodes
 - status: `enum Status`
-- fav: `boolean`
+- fav: `Boolean`
 
 ### Contents of `.play-next.config`
 
 - targetFormat: `StringTemplate`
+  - `{title}` for the user-specified title
+  - `{0}`, `{1}`, `{2}`... for the user-specified RegEx matches in order
 - targetDir: `FilePath`
-- dataSourceDir: `FilePath`
+- sourceDir: `FilePath`
+
+### Example commands
+
+- `play-next create komi-san-wa-comyushou-desu`
+- `play-next create overlord --fave`
+- `play-next init --fave`
+  - initializes it, then adds it to the favorites.
+- `play-next sync`
+- `play-next rename`
+- `play-next --fave`
+  - adds current series to favourites, does **not** play.
+- `play-next` or `play-next --with vlc`
+- `play-next open` or `play-next open --with firefox`
+- `play-next status`
+- `play-next status dropped`

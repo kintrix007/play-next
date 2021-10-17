@@ -1,48 +1,5 @@
 from typing import Union
-
-
-class CommandLineArgument:
-    def __init__(self, name: str, params: list[str]) -> None:
-        self.name = name
-        self.params = params
-    def __str__(self) -> str:
-        params = ", ".join(self.params)
-        return f"'{self.name}': {params}"
-
-class Command(CommandLineArgument):
-    def __str__(self) -> str:
-        return "[Command " + super().__str__() + "]"
-
-class Argument(CommandLineArgument):
-    def __str__(self) -> str:
-        return "[Argument " + super().__str__() + "]"
-
-
-class ParsedArgs:
-    def __init__(self, command: Command, args: list[Argument]) -> None:
-        self.command = command
-        self.args = args
-    def __str__(self) -> str:
-        args = "\n".join([str(i) for i in self.args])
-        return f"{self.command}\n{args}"
-
-
-COMMANDS: dict[str, int] = {
-    "create": 1,
-    "init": 0,
-    "open": 0,
-    "status": 1,
-    "sync": 0,
-    "rename": 0
-}
-ARGUMENTS: dict[str, int] = {
-    "with": 1,
-    "fave": 0
-}
-ARG_MAP = {
-    "w": "with",
-    "f": "fave"
-}
+from src.arg_data import COMMANDS, ARGUMENTS, ARG_MAP, CommandLineArgument, Command, Argument, ParsedArgs
 
 args: set[str] = set()
 

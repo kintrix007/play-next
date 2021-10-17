@@ -56,20 +56,23 @@ The command line arguements are separated my whitespaces.
 
 - title: `String`
 - watched: `Int`
-- epCount: `Int?`
-- episodeDir: `FilePath`
+- ep_count: `Int?`
 - website: `String?`
 - format: `RegEx` - The format of the downloaded episodes
 - status: `enum Status`
 - fav: `Boolean`
+- episode_dir: `FilePath?`
 
 ### Contents of `.play-next.config`
 
-- targetFormat: `StringTemplate`
+- target_format: `StringTemplate`
   - `{title}` for the user-specified title
   - `{0}`, `{1}`, `{2}`... for the user-specified RegEx matches in order
-- targetDir: `FilePath`
-- sourceDir: `FilePath`
+- default_source_format: `RegEx`
+  - default value: \
+    `^(?:[^\d]*\d+){0}[^\d]*0*(?P<episode>\d+).*\.(?P<extension>[\w\d]+)$`
+- target_dir: `FilePath`
+- source_dir: `FilePath`
 
 ### Example commands
 

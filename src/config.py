@@ -1,5 +1,6 @@
 import os, json
 from os import path
+from src.utilz import CONFIG_FILE
 
 class Config:
     def __init__(self, config_dict: dict[str, str]) -> None:
@@ -12,10 +13,11 @@ class Config:
     def __str__(self) -> str:
         return str(self._as_dict)
 
-CONFIG_PATH = path.expanduser("~/.play-next.config")
+CONFIG_PATH = path.expanduser(f"~/{CONFIG_FILE}")
 DEFAULTS: dict[str, str] = {
     "target_dir": path.expanduser("~/Documents/anime/"),
-    "source_dir": path.expanduser("~/.anime-source/"),
+    "source_dir": path.expanduser("~/Documents/.anime-source/"),
+    "default_episode_dir": ".",
     "default_source_format": r"^(?:[^\d]*\d+){0}[^\d]*0*(?P<episode>\d+).*\.(?P<extension>[\w\d]+)$",
     "target_format": "{title}-{0}.{1}",
 }

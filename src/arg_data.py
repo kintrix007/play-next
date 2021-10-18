@@ -32,17 +32,16 @@ DEFAULT_COMMAND = Command("play", [])
 COMMANDS: dict[str, int] = {
     "play": 0,
     "create": 1,
-    "init": 0,
     "open": 0,
     "status": 1,
     "sync": 0,
     "rename": 0,
+    "star": 0,
+    "info": 0,
 }
 ARGUMENTS: dict[str, int] = {
     "with": 1,
-    "fave": 0,
 }
 ARG_MAP = {
     "w": "with",
-    "f": "fave",
 }

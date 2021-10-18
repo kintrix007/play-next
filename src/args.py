@@ -1,8 +1,6 @@
 from typing import Union
 from src.arg_data import COMMANDS, ARGUMENTS, ARG_MAP, CommandLineArgument, Command, Argument, ParsedArgs
 
-args: set[str] = set()
-
 
 def _expand_args(in_args: list[str]) -> list[str]:
     result = []
@@ -61,6 +59,6 @@ def parse_args(in_args: list[str]):
                 add_arg(current_cla)
                 current_cla = None
     
-    assert current_cla == None and params_left <= 0, f"Missing parameters for {current_cla.name}"
+    assert current_cla == None and params_left <= 0, f"Missing parameters for '{current_cla.name}'"
 
     return ParsedArgs(command, args)

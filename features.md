@@ -29,28 +29,30 @@ The command line arguements are separated my whitespaces.
 
 - `--with`, `-w`
   - only affects 'play' and 'open' mode
-- `--fave`, `-f`
-  - favourite given series
 
 ### Commands
 
 - `create <title>`
-- `init`
   - ep count
   - website
   - original file format
+  - episode dir
 - `open`
   - open series website
 - `status <new status>`
   - sets the status to `new status`. Possible values are:
-    - planned - *default*
-    - watching - *automatically gets set after watching **first** ep*
-    - dropped
-    - finished - *automatically gets set after watching **last** ep*
+    - **planned** - *default*
+    - **watching** - *automatically gets set after watching **first** ep*
+    - **dropped**
+    - **finished** - *automatically gets set after watching **last** ep*
 - `sync`
   - sync the symlinks
 - `rename`
   - make the filenames of the episodes match the convention
+- `star`
+  - star a series
+- `info`
+- `play` - *default*
 
 ### Contents of `.play.json`
 
@@ -60,7 +62,7 @@ The command line arguements are separated my whitespaces.
 - website: `String?`
 - format: `RegEx` - The format of the downloaded episodes
 - status: `enum Status`
-- fav: `Boolean`
+- starred: `Boolean`
 - episode_dir: `FilePath?`
 
 ### Contents of `.play-next.config`
@@ -73,6 +75,7 @@ The command line arguements are separated my whitespaces.
     `^(?:[^\d]*\d+){0}[^\d]*0*(?P<episode>\d+).*\.(?P<extension>[\w\d]+)$`
 - target_dir: `FilePath`
 - source_dir: `FilePath`
+- default_episode_dir: `UnresolvedFilePath`
 
 ### Example commands
 

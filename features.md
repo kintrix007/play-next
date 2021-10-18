@@ -51,6 +51,8 @@ The command line arguements are separated my whitespaces.
   - make the filenames of the episodes match the convention
 - `star`
   - star a series
+- `unstar`
+  - star a series
 - `info`
 - `play` - *default*
 

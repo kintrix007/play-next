@@ -1,17 +1,6 @@
 import re
 
 
-class Status:
-    def __str__(self) -> str:
-        return type(self).__name__.lower()
-    def __repr__(self) -> str:
-        return "[Status: " + type(self).__name__.lower() + "]"
-class Planned(Status): ...
-class Watching(Status): ...
-class Dropped(Status): ...
-class Finished(Status): ...
-
-
 PLAY_JSON = ".play.json"
 CONFIG_FILE = ".play-next.config"
 

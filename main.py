@@ -21,10 +21,12 @@ def main():
 
 
 if __name__ == "__main__":
-    try: 
-        main()
-    except Exception as e:
-        msg = str(e)
-        if msg != "": print(msg)
-        else:         print(repr(e))
+    if True: main()
+    else:
+        try: 
+            main()
+        except AssertionError as e:
+            msg = str(e)
+            if msg != "": print(msg)
+            else:         print(repr(e))
 

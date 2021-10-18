@@ -37,6 +37,7 @@ COMMANDS: dict[str, int] = {
     "sync": 0,
     "rename": 0,
     "star": 0,
+    "unstar": 0,
     "info": 0,
 }
 ARGUMENTS: dict[str, int] = {

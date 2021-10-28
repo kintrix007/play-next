@@ -40,7 +40,8 @@ def prompt_create_play_json(config: Config, title: str, play_json_dir: str) -> N
     default = config.default_source_format
     format = input(f"original file format: ({default}) ") or default
 
-    episode_dir = input("episode dir: (config default) ") or None
+    default = config.default_episode_dir
+    episode_dir = input(f"episode dir: ({default}) ") or default
     if episode_dir: episode_dir = path.expanduser(path.expandvars(episode_dir))
 
     play_next = PlayJson({
@@ -51,7 +52,7 @@ def prompt_create_play_json(config: Config, title: str, play_json_dir: str) -> N
         "format": format,
         "status": Status().from_str("planned").to_str(),
         "starred": False,
-        "episode_dir": None,
+        "episode_dir": episode_dir,
     })
     with open(play_json_path, "w") as f:
         json.dump(play_next.to_dict(), f, indent=2, sort_keys=True)

@@ -9,12 +9,14 @@ cmd_name = "rename"
 def run(parsed: ParsedArgs, config: Config) -> None:
     cwd = os.getcwd()
     play_next = load_play_json(cwd)
-    title = play_next.title
+
+    episodes_dir = os.path.expandvars(os.path.expandvars(play_next.episode_dir or config.default_episode_dir))
     source_format = play_next.format
+    title = play_next.title
     target_format = config.target_format
     pattern = re.compile(source_format)
 
-    files_temp = [file for file in os.listdir(cwd) if file != ".play.json"]
+    files_temp = [file for file in os.listdir(episodes_dir) if file != ".play.json"]
     temp_matches = {file: match for file in files_temp if (match := re.match(pattern, file))}
     
     matches: dict[str, Union[str, int]] = {}
@@ -37,8 +39,8 @@ def run(parsed: ParsedArgs, config: Config) -> None:
     if res not in [ "y", "yes" ]: return
 
     for src, dst in rename_map.items():
-        src_path = os.path.join(cwd, src)
-        dst_path = os.path.join(cwd, dst)
+        src_path = os.path.join(episodes_dir, src)
+        dst_path = os.path.join(episodes_dir, dst)
         os.rename(src_path, dst_path)
     print("Successfully renamed files")
 

@@ -4,11 +4,12 @@ from src.utilz import CONFIG_FILE
 
 class Config:
     def __init__(self, config_dict: dict[str, str]) -> None:
-        self._as_dict = config_dict.copy()
-        self.target_format = config_dict["target_format"]
+        self._as_dict              = config_dict.copy()
+        self.target_dir            = config_dict["target_dir"]
+        self.source_dir            = config_dict["source_dir"]
+        self.default_episode_dir   = config_dict["default_episode_dir"]
         self.default_source_format = config_dict["default_source_format"]
-        self.target_dir = config_dict["target_dir"]
-        self.source_dir = config_dict["source_dir"]
+        self.target_format         = config_dict["target_format"]
     
     def __str__(self) -> str:
         return str(self._as_dict)
@@ -26,7 +27,7 @@ def prompt_create_config() -> None:
     print("First time configuration needed. By pressing enter you accept the default.\n")
     config = DEFAULTS.copy()
     for k, v in config.items():
-        res = input(f"{k}: [default={v}] ")
+        res = input(f"{k}: ({v}) ")
         if res == "": continue
         config[k] = res
         if k in [ "target_dir", "source_dir" ]:

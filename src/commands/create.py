@@ -3,7 +3,7 @@ from os import path
 from src.play_json import prompt_create_play_json
 from src.args import ParsedArgs
 from src.config import Config
-from src.utilz import PLAY_JSON, normalize_file_name
+from src.utilz import normalize_file_name
 
 cmd_name = "create"
 

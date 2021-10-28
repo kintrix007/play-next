@@ -18,12 +18,12 @@ DEFAULTS: dict[str, str] = {
     "target_dir": path.expanduser("~/Documents/anime/"),
     "source_dir": path.expanduser("~/Documents/.anime-source/"),
     "default_episode_dir": ".",
-    "default_source_format": r"^(?:[^\d]*\d+){0}[^\d]*0*(?P<episode>\d+).*\.(?P<extension>[\w\d]+)$",
-    "target_format": "{title}-{0}.{1}",
+    "default_source_format": r"^(?:[^\d]*\d+){0}[^\d]*0*(?P<ep>\d+).*\.(?P<ext>[\w\d]+)$",
+    "target_format": "{title}-{ep:02d}.{ext}",
 }
 
 def prompt_create_config() -> None:
-    print("First-time configuration:\n")
+    print("First time configuration needed. By pressing enter you accept the default.\n")
     config = DEFAULTS.copy()
     for k, v in config.items():
         res = input(f"{k}: [default={v}] ")

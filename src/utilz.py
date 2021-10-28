@@ -3,6 +3,9 @@ import re
 
 PLAY_JSON = ".play.json"
 CONFIG_FILE = ".play-next.config"
+DEFAULT_BROWSER = "firefox"
+DEFAULT_PLAYER = "vlc --fullscreen"
+
 
 def normalize_file_name(title: str) -> str:
     prev_result = ""

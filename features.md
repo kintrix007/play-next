@@ -1,17 +1,18 @@
 # Play Next
-### A command line utility for manging your series progress
+### A command line utility for managing your series progress
 
 ---
 
-### Command Line Arguements
+### Command Line Arguments
 
-The command line arguements are separated my whitespaces.
+The command line arguments are separated my whitespaces.
 
 - A string of letters prefixed with two dashes (e.g `--version`)
-- Single letter arguements prefixed with a single dash (e.g `-V`)
-- Stacking single letter arguements (e.g `-fs`) \
+- Single letter arguments prefixed with a single dash (e.g `-V`)
+- Stacking single letter arguments (e.g `-fs`) \
   is interpreted the same as typing `-f -s`
-- Marking the end of command line arguements explicitly with two dashes. (e.g `--`)
+- Marking the end of command line arguments explicitly with two dashes. (e.g `--`) \
+  Might be added later
 
 ### Features
 
@@ -25,7 +26,7 @@ The command line arguements are separated my whitespaces.
   - playing the next episode
   - applying a naming convention to the episodes
 
-### Arguements
+### Arguments
 
 - `--with`, `-w`
   - only affects 'play' and 'open' mode

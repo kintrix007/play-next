@@ -38,6 +38,8 @@ The command line arguments are separated my whitespaces.
   - website
   - original file format
   - episode dir
+- `reinit` \
+  - same as `create`
 - `open`
   - open series website
 - `status <new status>`

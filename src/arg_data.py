@@ -32,6 +32,7 @@ DEFAULT_COMMAND = Command("play", [])
 COMMANDS: dict[str, int] = {
     "play": 0,
     "create": 1,
+    "reinit": 0,
     "open": 0,
     "status": 1,
     "sync": 0,

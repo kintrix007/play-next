@@ -28,19 +28,33 @@ class PlayJson:
             "episode_dir": self.episode_dir,
         }
 
-def prompt_create_play_json(config: Config, title: str, play_json_dir: str) -> None:
+def prompt_create_play_json(config: Config, title: str, play_json_dir: str, overwrite=False) -> None:
     play_json_path = path.join(play_json_dir, PLAY_JSON)
-    assert not path.exists(play_json_path), f"File '{play_json_path}' already exists"
 
-    ep_count = input("episode count: (unknown) ") or None
+
+    old_play_json = None
+    if path.exists(play_json_path):
+        assert overwrite, f"File '{play_json_path}' already exists"
+        old_play_json = load_play_json(play_json_dir)
+
+    defaults = {
+        "ep_count": old_play_json.ep_count if old_play_json else None,
+        "website": old_play_json.website if old_play_json else None,
+        "format": old_play_json.format if old_play_json else config.default_source_format,
+        "episode_dir": old_play_json.episode_dir if old_play_json else config.default_episode_dir,
+    }
+
+    default = defaults["ep_count"]
+    ep_count = input(f"episode count: ({default}) ") or default
     if ep_count: ep_count = int(ep_count)
 
-    website = input("website: (unknown) ") or None
+    default = defaults["website"]
+    website = input(f"website: ({default}) ") or default
     
-    default = config.default_source_format
+    default = defaults["format"]
     format = input(f"original file format: ({default}) ") or default
 
-    default = config.default_episode_dir
+    default = defaults["episode_dir"]
     episode_dir = input(f"episode dir: ({default}) ") or default
     if episode_dir: episode_dir = path.expanduser(path.expandvars(episode_dir))
 
@@ -56,8 +70,6 @@ def prompt_create_play_json(config: Config, title: str, play_json_dir: str) -> N
     })
     with open(play_json_path, "w") as f:
         json.dump(play_next.to_dict(), f, indent=2, sort_keys=True)
-    
-    print(f"Successfully created '{play_json_path}'")
 
 def load_play_json(play_json_dir: str) -> PlayJson:
     play_json_path = path.join(play_json_dir, PLAY_JSON)

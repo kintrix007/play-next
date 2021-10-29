@@ -17,3 +17,4 @@ def run(parsed: ParsedArgs, config: Config) -> None:
 
     # Will throw if the play json already exists
     prompt_create_play_json(config, title, dir_path)
+    print(f"Successfully created '{title}' at '{root_dir}'")

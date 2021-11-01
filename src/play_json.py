@@ -2,7 +2,7 @@ import json, os
 from os import path
 from src.utilz import PLAY_JSON
 from src.config import Config
-from src.status_data import Status
+from src.status_data import PLANNED, Status
 from typing import Union
 
 class PlayNext:
@@ -64,7 +64,7 @@ def prompt_create_play_json(config: Config, title: str, play_json_dir: str, over
         "ep_count": ep_count,
         "website": website,
         "format": format,
-        "status": Status().from_str("planned").to_str(),
+        "status": PLANNED.to_str(),
         "starred": False,
         "episode_dir": episode_dir,
     })

@@ -33,7 +33,8 @@ def run(parsed: ParsedArgs, config: Config) -> None:
     indent_left = max(map(len, matches.keys()))
     indent_right = max(map(len, rename_map.values()))
     for k, v in rename_map.items():
-        print(("{k:<%d}->{v:>%d}" % (indent_left+2, indent_right+2)).format(k=k, v=v))
+        # print(("{k:<%d}->{v:>%d}" % (indent_left+2, indent_right+2)).format(k=k, v=v))
+        print("%-{}s -> %s".format(indent_left+1) % (k, v))
 
     res = input("\nIs this correct? (y/N) ").lower().strip()
     if res not in [ "y", "yes" ]: return

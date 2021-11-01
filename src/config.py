@@ -16,8 +16,8 @@ class Config:
 
 CONFIG_PATH = path.expanduser(f"~/{CONFIG_FILE}")
 DEFAULTS: dict[str, str] = {
-    "target_dir": path.expanduser("~/Documents/anime/"),
-    "source_dir": path.expanduser("~/Documents/.anime-source/"),
+    "target_dir": path.expanduser("~/Documents/series/"),
+    "source_dir": path.expanduser("~/Documents/.series-source/"),
     "default_episode_dir": ".",
     "default_source_format": r"^(?:[^\d]*\d+){0}[^\d]*0*(?P<ep>\d+).*\.(?P<ext>[\w\d]+)$",
     "target_format": "{title}-{ep:02d}.{ext}",

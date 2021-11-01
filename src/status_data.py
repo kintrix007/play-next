@@ -23,3 +23,8 @@ class Status:
     
     def to_str(self) -> str:
         return str(self)
+
+PLANNED  = Status().from_str("planned")
+WATCHING = Status().from_str("watching")
+DROPPED  = Status().from_str("dropped")
+FINISHED = Status().from_str("finished")

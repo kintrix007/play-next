@@ -4,9 +4,11 @@ import sys, os
 import src.args as args
 from src.config import load_config
 from src.cmd_loader import load_commands
+from colorama import init
 import src.utilz as utilz
 
 def main():
+    init(autoreset=True)
     config = load_config()
     parsed = args.parse_args(sys.argv[1:])
 

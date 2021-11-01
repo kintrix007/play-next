@@ -26,7 +26,7 @@ def run(parsed: ParsedArgs, config: Config) -> None:
         matches[f] = groups, groupdict
 
     rename_map = {
-        src: target_format.format(*match[1], title=title, **match[1])
+        src: target_format.format(*match[0], title=title, **match[1])
         for src, match in matches.items()
     }
     
@@ -36,8 +36,8 @@ def run(parsed: ParsedArgs, config: Config) -> None:
         # print(("{k:<%d}->{v:>%d}" % (indent_left+2, indent_right+2)).format(k=k, v=v))
         print("%-{}s -> %s".format(indent_left+1) % (k, v))
 
-    res = input("\nIs this correct? (y/N) ").lower().strip()
-    if res not in [ "y", "yes" ]: return
+    res = input("\nIs this correct? (Y/n) ").lower().strip()
+    if res not in [ "", "y", "yes" ]: return
 
     for src, dst in rename_map.items():
         src_path = os.path.join(episodes_dir, src)

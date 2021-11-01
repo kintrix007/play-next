@@ -12,7 +12,7 @@ def run(parsed: ParsedArgs, config: Config) -> None:
     cwd = os.getcwd()
     play_next = load_play_json(cwd)
 
-    title = play_next.title.capitalize()
+    title = play_next.title
     star_str = f"{Fore.YELLOW}[*]{Fore.RESET}" if play_next.starred else ""
     status = str(play_next.status).capitalize()
     watched = play_next.watched

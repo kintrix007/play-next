@@ -1,20 +1,20 @@
-import json, os
+import os, json
 from os import path
-from src.utilz import PLAY_JSON
+from src.utilz import PLAY_JSON, compose, is_same_path, normalize_file_name
 from src.config import Config
 from src.status_data import PLANNED, Status
 from typing import Union
 
 class PlayNext:
-    def __init__(self, play_next: dict) -> None:
-        self.title       : str              = play_next["title"]
-        self.watched     : int              = play_next["watched"]
-        self.ep_count    : Union[int, None] = play_next["ep_count"]
-        self.website     : Union[str, None] = play_next["website"]
-        self.format      : str              = play_next["format"]
-        self.status      : Status           = Status().from_str(play_next["status"])
-        self.starred     : bool             = play_next["starred"]
-        self.episode_dir : Union[str, None] = play_next["episode_dir"]
+    def __init__(self, play_json: dict) -> None:
+        self.title       : str              = play_json["title"]
+        self.watched     : int              = play_json["watched"]
+        self.ep_count    : Union[int, None] = play_json["ep_count"]
+        self.website     : Union[str, None] = play_json["website"]
+        self.format      : str              = play_json["format"]
+        self.status      : Status           = Status().from_str(play_json["status"])
+        self.starred     : bool             = play_json["starred"]
+        self.episode_dir : Union[str, None] = play_json["episode_dir"]
     
     def to_dict(self) -> dict:
         return {
@@ -28,46 +28,51 @@ class PlayNext:
             "episode_dir": self.episode_dir,
         }
 
-def prompt_create_play_json(config: Config, title: str, play_json_dir: str, overwrite=False) -> None:
+def prompt_create_play_json(config: Config, title: str, to_dir: Union[str, None] = None, no_overwrite=False):
+    normalized_title = normalize_file_name(title)
+    temp_dir = to_dir if to_dir else config.source_dir
+    play_json_dir = path.join(temp_dir, normalized_title)
+    if not path.exists(play_json_dir):
+        os.mkdir(play_json_dir)
+    
     play_json_path = path.join(play_json_dir, PLAY_JSON)
 
+    assert not (no_overwrite and path.exists(play_json_path)), f"'{normalized_title}' already exists!"
 
-    old_play_json = None
-    if path.exists(play_json_path):
-        assert overwrite, f"File '{play_json_path}' already exists"
-        old_play_json = load_play_json(play_json_dir)
+    old_play_next = load_play_json_nullable(play_json_path)
 
-    defaults = {
-        "ep_count": old_play_json.ep_count if old_play_json else None,
-        "website": old_play_json.website if old_play_json else None,
-        "format": old_play_json.format if old_play_json else config.default_source_format,
-        "episode_dir": old_play_json.episode_dir if old_play_json else config.default_episode_dir,
+    play_json = {
+        "title":       old_play_next.title       if old_play_next else title,
+        "watched":     old_play_next.watched     if old_play_next else 0,
+        "status":      old_play_next.status      if old_play_next else str(PLANNED),
+        "starred":     old_play_next.starred     if old_play_next else False,
+        "ep_count":    old_play_next.ep_count    if old_play_next else None,
+        "website":     old_play_next.website     if old_play_next else None,
+        "format":      old_play_next.format      if old_play_next else config.default_source_format,
+        "episode_dir": old_play_next.episode_dir if old_play_next else config.default_episode_dir,
     }
 
-    default = defaults["ep_count"]
-    ep_count = input(f"episode count: ({default}) ") or default
-    if ep_count: ep_count = int(ep_count)
+    def prompt(key: str, do=lambda x:x, *exceptions: list[Exception], nullable=False) -> None:
+        prev = play_json[key]
+        try:
+            res = input(f"{key}: ({prev}) ") or prev
+            play_json[key] = res if nullable else do(res)
+        except exceptions or Exception:
+            print("Incorrect format")
+            prompt(key, do)
 
-    default = defaults["website"]
-    website = input(f"website: ({default}) ") or default
+    prompt("ep_count", int, ValueError, nullable=True)
+    prompt("website")
+    prompt("format")
+    prompt("episode_dir", compose(path.expanduser, path.expandvars), None, nullable=True)
+
+    play_next = PlayNext(play_json)
+
+    os.chdir(play_json_dir)
+    episode_dir = play_next.episode_dir
+    if not is_same_path(episode_dir, play_json_dir):
+        os.symlink(path.join(play_json_dir, PLAY_JSON), path.join(episode_dir, PLAY_JSON))
     
-    default = defaults["format"]
-    format = input(f"original file format: ({default}) ") or default
-
-    default = defaults["episode_dir"]
-    episode_dir = input(f"episode dir: ({default}) ") or default
-    if episode_dir: episode_dir = path.expanduser(path.expandvars(episode_dir))
-
-    play_next = PlayNext({
-        "title": title,
-        "watched": 0,
-        "ep_count": ep_count,
-        "website": website,
-        "format": format,
-        "status": PLANNED.to_str(),
-        "starred": False,
-        "episode_dir": episode_dir,
-    })
     with open(play_json_path, "w") as f:
         json.dump(play_next.to_dict(), f, indent=2, sort_keys=True)
 
@@ -78,6 +83,13 @@ def load_play_json(play_json_dir: str) -> PlayNext:
     with open(play_json_path, "r") as f:
         play_json_dict = json.load(f)
     return PlayNext(play_json_dict)
+
+def load_play_json_nullable(play_json_dir: str) -> Union[PlayNext, None]:
+    try:
+        return load_play_json(play_json_dir)
+    except AssertionError:
+        return None
+    
 
 def overwrite_play_json(play_json_dir: str, new_play_next: PlayNext) -> None:
     play_json_path = path.join(play_json_dir, PLAY_JSON)

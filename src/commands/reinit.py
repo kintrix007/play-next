@@ -1,12 +1,13 @@
 import os
 from src.args import ParsedArgs
 from src.config import Config
-from src.play_json import load_play_json, prompt_create_play_json
+from src.play_json import load_play_json, load_play_json_nullable, prompt_create_play_json
 
 cmd_name = "reinit"
 
 def run(parsed: ParsedArgs, config: Config) -> None:
     cwd = os.getcwd()
-    title = load_play_json(cwd).title
-    prompt_create_play_json(config, title, cwd, True)
+    play_next = load_play_json_nullable(cwd)
+    title = play_next.title if play_next != None else "Untitled"
+    prompt_create_play_json(config, title, to_dir=cwd)
     print(f"Successfully reinitialized '{title}'")

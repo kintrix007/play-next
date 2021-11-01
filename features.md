@@ -39,14 +39,8 @@ The command line arguments are separated my whitespaces.
 
 ### Contents of `.play-next.config`
 
-- target_format: `StringTemplate`
-  - `{title}` for the user-specified title
-  - `{group name}` for the user-specified **named** RegEx groups
-  - `{group number}` for the user-specified **unnamed** RegEx groups
-  - python formatting options can be used.
-  - default value: `"{title}-{ep:02d}.{ext}"`
 - default_source_format: `RegEx`
-  - default value: `^(?:[^\d]*\d+){0}[^\d]*0*(?P<episode>\d+).*\.(?P<extension>[\w\d]+)$`
+  - default value: `^(?:[^\d]*\d+){0}[^\d]*0*(?P<ep>\d+).*\.(?P<ext>[\w\d]+)$`
 - target_dir: `AbsoluteFilePath`
 - source_dir: `AbsoluteFilePath`
 - default_episode_dir: `AnyFilePath`
@@ -90,14 +84,14 @@ The command line arguments are separated my whitespaces.
 ### Example commands
 
 - `play-next create komi-san-wa-comyushou-desu`
-- `play-next create overlord --fave`
-- `play-next init --fave`
-  - initializes it, then adds it to the favorites.
-- `play-next sync`
+- `play-next create overlord`
+- `play-next reinit`
+- `play-next link`
 - `play-next rename`
-- `play-next --fave`
-  - adds current series to favourites, does **not** play.
-- `play-next` or `play-next --with vlc`
+- `play-next`
+- `play-next` or `play-next play` or `play-next --with vlc`
 - `play-next open` or `play-next open --with firefox`
-- `play-next status`
+- `play-next info`
+- `play-next info --full`
 - `play-next status dropped`
+- `play-next star`, `play-next unstar`

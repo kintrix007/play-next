@@ -7,5 +7,6 @@ cmd_name = "play"
 
 def run(parsed: ParsedArgs, config: Config) -> None:
     cwd = os.getcwd()
+    os.listdir(cwd)
     play_next = load_play_json(cwd)
     raise NotImplementedError()

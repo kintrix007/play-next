@@ -9,7 +9,6 @@ class Config:
         self.source_dir            = config_dict["source_dir"]
         self.default_episode_dir   = config_dict["default_episode_dir"]
         self.default_source_format = config_dict["default_source_format"]
-        self.target_format         = config_dict["target_format"]
     
     def __str__(self) -> str:
         return str(self._as_dict)
@@ -20,7 +19,6 @@ DEFAULTS: dict[str, str] = {
     "source_dir": path.expanduser("~/Documents/.series-source/"),
     "default_episode_dir": ".",
     "default_source_format": r"^(?:[^\d]*\d+){0}[^\d]*0*(?P<ep>\d+).*\.(?P<ext>[\w\d]+)$",
-    "target_format": "{title}-{ep:02d}.{ext}",
 }
 
 def prompt_create_config() -> None:

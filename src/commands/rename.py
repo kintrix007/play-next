@@ -3,6 +3,7 @@ from typing import Callable, Union
 from src.args import ParsedArgs
 from src.config import Config
 from src.play_json import load_play_json
+from src.utilz import TARGET_FORMAT
 
 cmd_name = "rename"
 
@@ -13,7 +14,6 @@ def run(parsed: ParsedArgs, config: Config) -> None:
     episodes_dir = os.path.expandvars(os.path.expandvars(play_next.episode_dir or config.default_episode_dir))
     source_format = play_next.format
     title = play_next.title
-    target_format = config.target_format
     pattern = re.compile(source_format)
 
     files_temp = [file for file in os.listdir(episodes_dir) if file != ".play.json"]
@@ -26,8 +26,8 @@ def run(parsed: ParsedArgs, config: Config) -> None:
         matches[f] = groups, groupdict
 
     rename_map = {
-        src: target_format.format(*match[0], title=title, **match[1])
-        for src, match in matches.items()
+        src: TARGET_FORMAT.format(*groups, title=title, **groupdict)
+        for src, (groups, groupdict) in matches.items()
     }
     
     indent_left = max(map(len, matches.keys()))

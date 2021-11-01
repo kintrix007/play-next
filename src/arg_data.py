@@ -22,6 +22,10 @@ class ParsedArgs:
     def __init__(self, command: Union[Command, None], args: list[Argument]) -> None:
         self.command = command or DEFAULT_COMMAND
         self.args = args
+        
+    def get_arg(self, name: str) -> Argument:
+        return next((arg for arg in self.args if arg.name == name), None)
+    
     def __str__(self) -> str:
         args = "\n".join([str(i) for i in self.args])
         return f"{self.command}\n{args}"
@@ -35,7 +39,7 @@ COMMANDS: dict[str, int] = {
     "reinit": 0,
     "open": 0,
     "status": 1,
-    "sync": 0,
+    "link": 0,
     "rename": 0,
     "star": 0,
     "unstar": 0,
@@ -43,7 +47,9 @@ COMMANDS: dict[str, int] = {
 }
 ARGUMENTS: dict[str, int] = {
     "with": 1,
+    "full": 0,
 }
 ARG_MAP = {
     "w": "with",
+    "f": "full"
 }

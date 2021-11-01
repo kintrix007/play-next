@@ -5,7 +5,7 @@ from src.config import Config
 from src.status_data import Status
 from typing import Union
 
-class PlayJson:
+class PlayNext:
     def __init__(self, play_next: dict) -> None:
         self.title       : str              = play_next["title"]
         self.watched     : int              = play_next["watched"]
@@ -58,7 +58,7 @@ def prompt_create_play_json(config: Config, title: str, play_json_dir: str, over
     episode_dir = input(f"episode dir: ({default}) ") or default
     if episode_dir: episode_dir = path.expanduser(path.expandvars(episode_dir))
 
-    play_next = PlayJson({
+    play_next = PlayNext({
         "title": title,
         "watched": 0,
         "ep_count": ep_count,
@@ -71,15 +71,15 @@ def prompt_create_play_json(config: Config, title: str, play_json_dir: str, over
     with open(play_json_path, "w") as f:
         json.dump(play_next.to_dict(), f, indent=2, sort_keys=True)
 
-def load_play_json(play_json_dir: str) -> PlayJson:
+def load_play_json(play_json_dir: str) -> PlayNext:
     play_json_path = path.join(play_json_dir, PLAY_JSON)
     assert path.exists(play_json_path), f"File '{play_json_path}' does not exist"
 
     with open(play_json_path, "r") as f:
         play_json_dict = json.load(f)
-    return PlayJson(play_json_dict)
+    return PlayNext(play_json_dict)
 
-def overwrite_play_json(play_json_dir: str, new_play_next: PlayJson) -> None:
+def overwrite_play_json(play_json_dir: str, new_play_next: PlayNext) -> None:
     play_json_path = path.join(play_json_dir, PLAY_JSON)
     with open(play_json_path, "w") as f:
         json.dump(new_play_next.to_dict(), f, indent=2, sort_keys=True)

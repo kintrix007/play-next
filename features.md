@@ -30,6 +30,8 @@ The command line arguments are separated my whitespaces.
 
 - `--with`, `-w`
   - only affects 'play' and 'open' mode
+- `--full`, "-f"
+  - only affects 'info'
 
 ### Commands
 
@@ -38,7 +40,7 @@ The command line arguments are separated my whitespaces.
   - website
   - original file format
   - episode dir
-- `reinit` \
+- `reinit`
   - same as `create`
 - `open`
   - open series website
@@ -48,8 +50,8 @@ The command line arguments are separated my whitespaces.
     - **watching** - *automatically gets set after watching **first** ep*
     - **dropped**
     - **finished** - *automatically gets set after watching **last** ep*
-- `sync`
-  - sync the symlinks
+- `link`
+  - remake, update the symlinks
 - `rename`
   - make the filenames of the episodes match the convention
 - `star`

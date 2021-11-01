@@ -36,7 +36,6 @@ def prompt_create_play_json(config: Config, title: str, to_dir: Union[str, None]
         os.mkdir(play_json_dir)
     
     play_json_path = path.join(play_json_dir, PLAY_JSON)
-
     assert not (no_overwrite and path.exists(play_json_path)), f"'{normalized_title}' already exists!"
 
     old_play_next = load_play_json_nullable(play_json_path)

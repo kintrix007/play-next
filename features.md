@@ -26,15 +26,41 @@ The command line arguments are separated my whitespaces.
   - playing the next episode
   - applying a naming convention to the episodes
 
+### Contents of `.play.json`
+
+- title: `String`
+- watched: `Int`
+- ep_count: `Int?`
+- website: `String?`
+- format: `RegEx` - The format of the downloaded episodes
+- status: `enum Status`
+- starred: `Boolean`
+- episode_dir: `FilePath?`
+
+### Contents of `.play-next.config`
+
+- target_format: `StringTemplate`
+  - `{title}` for the user-specified title
+  - `{group name}` for the user-specified **named** RegEx groups
+  - `{group number}` for the user-specified **unnamed** RegEx groups
+  - python formatting options can be used.
+  - default value: `"{title}-{ep:02d}.{ext}"`
+- default_source_format: `RegEx`
+  - default value: `^(?:[^\d]*\d+){0}[^\d]*0*(?P<episode>\d+).*\.(?P<extension>[\w\d]+)$`
+- target_dir: `FilePath`
+- source_dir: `FilePath`
+- default_episode_dir: `UnresolvedFilePath`
+
 ### Arguments
 
 - `--with`, `-w`
   - only affects 'play' and 'open' mode
-- `--full`, "-f"
+- `--full`, `-f`
   - only affects 'info'
 
 ### Commands
 
+- `config` - can be used for reconfig, should update everything accordingly
 - `create <title>`
   - ep count
   - website
@@ -60,29 +86,6 @@ The command line arguments are separated my whitespaces.
   - star a series
 - `info`
 - `play` - *default*
-
-### Contents of `.play.json`
-
-- title: `String`
-- watched: `Int`
-- ep_count: `Int?`
-- website: `String?`
-- format: `RegEx` - The format of the downloaded episodes
-- status: `enum Status`
-- starred: `Boolean`
-- episode_dir: `FilePath?`
-
-### Contents of `.play-next.config`
-
-- target_format: `StringTemplate`
-  - `{title}` for the user-specified title
-  - `{0}`, `{1}`, `{2}`... for the user-specified RegEx matches in order
-- default_source_format: `RegEx`
-  - default value: \
-    `^(?:[^\d]*\d+){0}[^\d]*0*(?P<episode>\d+).*\.(?P<extension>[\w\d]+)$`
-- target_dir: `FilePath`
-- source_dir: `FilePath`
-- default_episode_dir: `UnresolvedFilePath`
 
 ### Example commands
 

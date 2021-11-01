@@ -15,4 +15,4 @@ def run(parsed: ParsedArgs, config: Config) -> None:
     except AttributeError:
         browser = DEFAULT_BROWSER
     print(f"Opening website '{site}'...")
-    os.system(f"{browser} {site}")
+    os.system(f"{browser} '{site}'")

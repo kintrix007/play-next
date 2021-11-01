@@ -7,7 +7,8 @@ cmd_name = "reinit"
 
 def run(parsed: ParsedArgs, config: Config) -> None:
     cwd = os.getcwd()
+    filename = os.path.basename(os.path.normpath(cwd))
     play_next = load_play_json_nullable(cwd)
-    title = play_next.title if play_next != None else "Untitled"
+    title = play_next.title if play_next != None else filename
     prompt_create_play_json(config, title, to_dir=cwd)
     print(f"Successfully reinitialized '{title}'")

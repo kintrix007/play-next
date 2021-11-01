@@ -8,5 +8,5 @@ cmd_name = "create"
 def run(parsed: ParsedArgs, config: Config) -> None:
     title = parsed.command.params[0]
 
-    prompt_create_play_json(config, title, no_overwrite=True)
+    prompt_create_play_json(config, title, is_reinit=False)
     print(f"Successfully created '{title}'")

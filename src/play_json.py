@@ -23,20 +23,19 @@ class PlayNext:
             "ep_count":    self.ep_count,
             "website":     self.website,
             "format":      self.format,
-            "status":      self.status.to_str(),
+            "status":      str(self.status),
             "starred":     self.starred,
             "episode_dir": self.episode_dir,
         }
 
-def prompt_create_play_json(config: Config, title: str, to_dir: Union[str, None] = None, no_overwrite=False):
+def prompt_create_play_json(config: Config, title: str, to_dir: Union[str, None] = None, can_overwrite=True):
     normalized_title = normalize_file_name(title)
-    temp_dir = to_dir if to_dir else config.source_dir
-    play_json_dir = path.join(temp_dir, normalized_title)
+    play_json_dir = to_dir if to_dir else path.join(config.source_dir, normalized_title)
     if not path.exists(play_json_dir):
         os.mkdir(play_json_dir)
     
     play_json_path = path.join(play_json_dir, PLAY_JSON)
-    assert not (no_overwrite and path.exists(play_json_path)), f"'{normalized_title}' already exists!"
+    assert not (not can_overwrite and path.exists(play_json_path)), f"'{normalized_title}' already exists!"
 
     old_play_next = load_play_json_nullable(play_json_path)
 
@@ -55,7 +54,7 @@ def prompt_create_play_json(config: Config, title: str, to_dir: Union[str, None]
         prev = play_json[key]
         try:
             res = input(f"{key}: ({prev}) ") or prev
-            play_json[key] = res if nullable else do(res)
+            play_json[key] = None if nullable and res == None else do(res)
         except exceptions or Exception:
             print("Incorrect format")
             prompt(key, do)
@@ -66,14 +65,18 @@ def prompt_create_play_json(config: Config, title: str, to_dir: Union[str, None]
     prompt("episode_dir", compose(path.expanduser, path.expandvars), None, nullable=True)
 
     play_next = PlayNext(play_json)
-
-    os.chdir(play_json_dir)
-    episode_dir = play_next.episode_dir
-    if not is_same_path(episode_dir, play_json_dir):
-        os.symlink(path.join(play_json_dir, PLAY_JSON), path.join(episode_dir, PLAY_JSON))
     
     with open(play_json_path, "w") as f:
-        json.dump(play_next.to_dict(), f, indent=2, sort_keys=True)
+        as_text = json.dumps(play_next.to_dict(), indent=2, sort_keys=True)
+        f.write(as_text)
+
+    #TODO Needs work + redesign
+    # os.chdir(play_json_dir)
+    # episode_dir = play_next.episode_dir
+    # if not is_same_path(episode_dir, play_json_dir):
+    #     if not path.exists(path.join(episode_dir, PLAY_JSON)):
+    #         os.symlink(path.join(play_json_dir, PLAY_JSON), path.join(episode_dir, PLAY_JSON))
+
 
 def load_play_json(play_json_dir: str) -> PlayNext:
     play_json_path = path.join(play_json_dir, PLAY_JSON)

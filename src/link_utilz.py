@@ -26,7 +26,7 @@ def relink(config: Config, verbose=False) -> None:
         os.chdir(series_dir)
 
         def link_to(dir: str, start = "", verbose=False) -> None:
-            source_dir = os.path.abspath(play_next.episode_dir)
+            source_dir = os.path.abspath(series_dir)
             link_target = os.path.join(dir, play_next.title)
             os.symlink(source_dir, link_target)
             if verbose:

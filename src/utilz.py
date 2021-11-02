@@ -26,10 +26,13 @@ def normalize_file_name(title: str) -> str:
     
     return result
 
-def is_same_path(path1: str, path2: str) -> bool:
+def normalized_abs_path(p: str) -> str:
     norm = compose(path.abspath, path.normcase, path.normpath, path.expanduser, path.expandvars)
-    norm1 = norm(path1)
-    norm2 = norm(path2)
+    return norm(p)
+
+def is_same_path(path1: str, path2: str) -> bool:
+    norm1 = normalized_abs_path(path1)
+    norm2 = normalized_abs_path(path2)
     return norm1 == norm2
 
 def compose(*functions: list[Callable[[Any], Any]]) -> Callable[[Any], Any]: 

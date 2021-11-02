@@ -18,6 +18,7 @@ def run(parsed: ParsedArgs, config: Config) -> None:
     watched = play_next.watched
     ep_count = play_next.ep_count
     episode_dir = play_next.episode_dir
+    website = play_next.website
 
     print(f"{BRIGHT}{title}{NORMAL} - {BRIGHT}{status} {star_str}")
     if ep_count == None:
@@ -29,3 +30,6 @@ def run(parsed: ParsedArgs, config: Config) -> None:
     if episode_dir:
         print()
         print(f"Episode directory: '{episode_dir}'")
+    if website:
+        print(f"Website: '{website}'")
+

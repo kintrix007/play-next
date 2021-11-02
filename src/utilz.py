@@ -6,6 +6,7 @@ from functools import reduce
 
 PLAY_JSON = ".play.json"
 CONFIG_FILE = ".play-next.config"
+EPISODE_SYMLINK_NAME = "episodes"
 DEFAULT_BROWSER = "firefox"
 DEFAULT_PLAYER = "vlc --fullscreen"
 TARGET_FORMAT = "{title}-{ep:02d}.{ext}"

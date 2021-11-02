@@ -17,13 +17,11 @@ def normalize_file_name(title: str) -> str:
     result = title.lower()
     while prev_result != result:
         prev_result = result
-        result = re.sub(r"[^a-zA-Z0-9\-]", "-", prev_result)
+        result = re.sub(r"[^a-z0-9\-]", "-", prev_result)
     
     prev_result = ""
     result = result.strip("-")
-    while prev_result != result:
-        prev_result = result
-        result = re.sub(r"-+", "-", prev_result)
+    result = re.sub(r"-+", "-", prev_result)
     
     return result
 

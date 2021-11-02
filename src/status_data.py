@@ -23,6 +23,13 @@ class Status:
     
     def to_str(self) -> str:
         return str(self)
+    
+    def __eq__(self, s: Status) -> bool:
+        return str(self) == str(s)
+    
+    def __ne__(self, s: Status) -> bool:
+        return str(self) != str(s)
+
 
 PLANNED  = Status().from_str("planned")
 WATCHING = Status().from_str("watching")

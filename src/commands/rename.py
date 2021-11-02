@@ -3,7 +3,7 @@ from typing import Callable, Union
 from src.args import ParsedArgs
 from src.config import Config
 from src.play_json import load_play_json
-from src.utilz import TARGET_FORMAT
+from src.utilz import PLAY_JSON, TARGET_FORMAT
 
 cmd_name = "rename"
 
@@ -16,7 +16,7 @@ def run(parsed: ParsedArgs, config: Config) -> None:
     title = play_next.title
     pattern = re.compile(source_format)
 
-    files_temp = sorted([file for file in os.listdir(episodes_dir) if file != ".play.json"])
+    files_temp = sorted([f for f in os.listdir(episodes_dir) if f != PLAY_JSON])
     temp_matches = {file: match for file in files_temp if (match := re.match(pattern, file))}
     
     matches: dict[str, Union[str, int]] = {}

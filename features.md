@@ -67,7 +67,7 @@ The command line arguments are separated my whitespaces.
 - `status <new status>`
   - sets the status to `new status`. Possible values are:
     - **planned** - *default*
-    - **watching** - *automatically gets set after watching **first** ep*
+    - **watching** - *automatically gets set after playing an episode, and the series is not finished already*
     - **dropped**
     - **finished** - *automatically gets set after watching **last** ep*
 - `link`

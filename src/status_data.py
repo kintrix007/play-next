@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-statuses = [
+STATUSES = [
     "planned",
     "watching",
     "dropped",
@@ -13,12 +13,12 @@ class Status:
         self.id = id
     
     def __str__(self) -> str:
-        return statuses[self.id]
+        return STATUSES[self.id]
     
     def from_str(self, status: str) -> Status:
-        assert status in statuses, f"Status '{status}' in not a valid option"
-        new_id = statuses.index(status)
-        self.id = new_id
+        assert isinstance(status, str)
+        assert status in STATUSES, f"Status '{status}' is not a valid status"
+        self.id = STATUSES.index(status)
         return self
     
     def to_str(self) -> str:

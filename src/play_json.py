@@ -37,12 +37,12 @@ def prompt_create_play_json(config: Config, title: str, to_dir: Union[str, None]
     play_json_path = path.join(play_json_dir, PLAY_JSON)
     assert not (not can_overwrite and path.exists(play_json_path)), f"'{normalized_title}' already exists!"
 
-    old_play_next = load_play_json_nullable(play_json_path)
+    old_play_next = load_play_json_nullable(play_json_dir)
 
     play_json = {
         "title":       old_play_next.title       if old_play_next else title,
         "watched":     old_play_next.watched     if old_play_next else 0,
-        "status":      old_play_next.status      if old_play_next else str(PLANNED),
+        "status":      str(old_play_next.status) if old_play_next else str(PLANNED),
         "starred":     old_play_next.starred     if old_play_next else False,
         "ep_count":    old_play_next.ep_count    if old_play_next else None,
         "website":     old_play_next.website     if old_play_next else None,

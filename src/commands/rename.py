@@ -16,7 +16,7 @@ def run(parsed: ParsedArgs, config: Config) -> None:
     title = play_next.title
     pattern = re.compile(source_format)
 
-    files_temp = [file for file in os.listdir(episodes_dir) if file != ".play.json"]
+    files_temp = sorted([file for file in os.listdir(episodes_dir) if file != ".play.json"])
     temp_matches = {file: match for file in files_temp if (match := re.match(pattern, file))}
     
     matches: dict[str, Union[str, int]] = {}

@@ -2,7 +2,6 @@ import os
 from os import path
 from src.play_json import load_play_json
 from src.status_data import DROPPED, FINISHED, PLANNED, WATCHING
-from src.utilz import PLAY_JSON
 from src.config import Config
 from colorama import Fore, Style
 

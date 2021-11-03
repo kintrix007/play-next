@@ -1,4 +1,5 @@
 import os
+from os import path
 from src.play_json import load_play_json
 from src.status_data import DROPPED, FINISHED, PLANNED, WATCHING
 from src.utilz import PLAY_JSON
@@ -18,7 +19,7 @@ def relink(config: Config, verbose=False) -> None:
     dirs = [ starred_dir, planned_dir, watching_dir, dropped_dir, finished_dir ]
     prepare_dirs(dirs, verbose=verbose)
     
-    names = [f for f in os.listdir(source_root) if os.path.isdir(f)]
+    names = [f for f in os.listdir(source_root) if path.isdir(path.join(source_root, f))]
     longest = max(map(len, names)) + len(source_root)
     for series_name in names:
         series_dir = os.path.join(source_root, series_name)

@@ -49,7 +49,7 @@ The command line arguments are separated my whitespaces.
 
 - `--with`, `-w`
   - only affects 'play' and 'open' mode
-- `--full`, `-f`
+- `--all`, `-a`
   - only affects 'info'
 
 ### Commands
@@ -92,6 +92,6 @@ The command line arguments are separated my whitespaces.
 - `play-next` or `play-next play` or `play-next --with vlc`
 - `play-next open` or `play-next open --with firefox`
 - `play-next info`
-- `play-next info --full`
+- `play-next info --all`
 - `play-next status dropped`
 - `play-next star`, `play-next unstar`

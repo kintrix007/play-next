@@ -18,7 +18,7 @@ def relink(config: Config, verbose=False) -> None:
     dirs = [ starred_dir, planned_dir, watching_dir, dropped_dir, finished_dir ]
     prepare_dirs(dirs, verbose=verbose)
     
-    names = os.listdir(source_root)
+    names = [f for f in os.listdir(source_root) if os.path.isdir(f)]
     longest = max(map(len, names)) + len(source_root)
     for series_name in names:
         series_dir = os.path.join(source_root, series_name)

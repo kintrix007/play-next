@@ -29,7 +29,8 @@ class PlayNext:
         }
 
 def dir_path_from_title(config: Config, title: str) -> str:
-    return path.join(config.source_dir, normalize_file_name(title))
+    norm_title = normalize_file_name(title)
+    return path.join(config.source_dir, norm_title)
 
 def prompt_create_play_json(config: Config, title: str, to_dir: str, can_overwrite=True):
     play_json_dir = to_dir

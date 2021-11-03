@@ -19,6 +19,10 @@ def run(parsed: ParsedArgs, config: Config) -> None:
     files_temp = sorted([f for f in os.listdir(episodes_dir) if f != PLAY_JSON])
     temp_matches = {file: match for file in files_temp if (match := re.match(pattern, file))}
     
+    if len(temp_matches) == 0:
+        print("No files match the source format")
+        return
+
     matches: dict[str, Union[str, int]] = {}
     for f, m in temp_matches.items():
         groups = m.groups()
@@ -30,8 +34,7 @@ def run(parsed: ParsedArgs, config: Config) -> None:
         for src, (groups, groupdict) in matches.items()
     }
     
-    indent_left = max(map(len, matches.keys()))
-    indent_right = max(map(len, rename_map.values()))
+    indent_left = max(map(len, rename_map.keys()))
     for k, v in rename_map.items():
         # print(("{k:<%d}->{v:>%d}" % (indent_left+2, indent_right+2)).format(k=k, v=v))
         print("%-{}s -> %s".format(indent_left+1) % (k, v))

@@ -8,7 +8,7 @@ PLAY_JSON = ".play.json"
 CONFIG_FILE = ".play-next.config"
 EPISODE_SYMLINK_NAME = "episodes"
 DEFAULT_BROWSER = "firefox"
-DEFAULT_PLAYER = "vlc --fullscreen"
+DEFAULT_PLAYER = "vlc"
 TARGET_FORMAT = "{title}-{ep:02d}.{ext}"
 
 
@@ -19,9 +19,8 @@ def normalize_file_name(title: str) -> str:
         prev_result = result
         result = re.sub(r"[^a-z0-9\-]", "-", prev_result)
     
-    prev_result = ""
+    result = re.sub(r"-+", "-", result)
     result = result.strip("-")
-    result = re.sub(r"-+", "-", prev_result)
     
     return result
 

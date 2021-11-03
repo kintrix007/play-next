@@ -47,9 +47,9 @@ COMMANDS: dict[str, int] = {
 }
 ARGUMENTS: dict[str, int] = {
     "with": 1,
-    "full": 0,
+    "all": 0,
 }
 ARG_MAP = {
     "w": "with",
-    "f": "full"
+    "a": "all"
 }

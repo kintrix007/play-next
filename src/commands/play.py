@@ -30,6 +30,7 @@ def run(parsed: ParsedArgs, config: Config) -> None:
     except AttributeError:
         player = DEFAULT_PLAYER
 
+    # print(f"{player} '{next_ep_path}'")
     exit_code = os.system(f"{player} '{next_ep_path}'")
     assert exit_code == 0, f"'{player}' stopped with a non-zero exit code ({exit_code})"
 

@@ -26,7 +26,7 @@ def run(parsed: ParsedArgs, config: Config) -> None:
     else:
         print(f"Watched {watched} of {ep_count} eps")
     
-    if not parsed.get_arg("full"): return
+    if not parsed.get_arg("all"): return
     if episode_dir:
         print()
         print(f"Episode directory: '{episode_dir}'")

@@ -37,7 +37,7 @@ def run(parsed: ParsedArgs, config: Config) -> None:
     play_next.watched = next_ep
 
     was_status_updated = False
-    if play_next.watched >= play_next.ep_count:
+    if play_next.ep_count != None and play_next.watched >= play_next.ep_count:
         play_next.status = FINISHED
         was_status_updated = True
     elif play_next.status == PLANNED or play_next.status == DROPPED:

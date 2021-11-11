@@ -65,7 +65,7 @@ def prompt_create_play_json(config: Config, title: str, to_dir: str, can_overwri
     prompt("ep_count", int, ValueError, nullable=True)
     prompt("website")
     prompt("format")
-    prompt("episode_dir", compose(path.expanduser, path.expandvars), None, nullable=True)
+    prompt("episode_dir")
 
     play_next = PlayNext(play_json)
     

@@ -35,7 +35,7 @@ The command line arguments are separated my whitespaces.
 - format: `RegEx` - The format of the downloaded episodes
 - status: `enum Status`
 - starred: `Boolean`
-- episode_dir: `AnyFilePath?`
+- episode_dir: `UnresolvedFilePath?`
 
 ### Contents of `.play-next.config`
 
@@ -43,7 +43,7 @@ The command line arguments are separated my whitespaces.
   - default value: `^(?:[^\d]*\d+){0}[^\d]*0*(?P<ep>\d+).*\.(?P<ext>[\w\d]+)$`
 - target_dir: `AbsoluteFilePath`
 - source_dir: `AbsoluteFilePath`
-- default_episode_dir: `AnyFilePath`
+- default_episode_dir: `UnresolvedFilePath`
 
 ### Arguments
 

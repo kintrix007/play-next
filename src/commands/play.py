@@ -3,7 +3,7 @@ from src.args import ParsedArgs
 from src.config import Config
 from src.play_json import get_episodes_path, load_play_json, overwrite_play_json
 from src.status_data import DROPPED, FINISHED, PLANNED, WATCHING
-from src.utilz import DEFAULT_PLAYER, PLAY_JSON, TARGET_FORMAT
+from src.utilz import DEFAULT_PLAYER, TARGET_FORMAT
 from colorama import Style
 
 cmd_name = "play"
@@ -28,7 +28,7 @@ def run(parsed: ParsedArgs, config: Config) -> None:
     except AttributeError:
         player = DEFAULT_PLAYER
 
-    # print(f"{player} '{next_ep_path}'")
+    print(f"{player} '{next_ep_path}'")
     exit_code = os.system(f"{player} '{next_ep_path}'")
     assert exit_code == 0, f"'{player}' stopped with a non-zero exit code ({exit_code})"
 

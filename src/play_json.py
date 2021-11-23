@@ -100,7 +100,7 @@ def overwrite_play_json(play_json_dir: str, new_play_next: PlayNext) -> None:
 def get_episodes_path(play_next: PlayNext, config: Config):
     expand = compose(path.expanduser, path.expandvars)
     ep_dir = expand(play_next.episode_dir or config.default_episode_dir)
+    ep_paths  = [path.join(ep_dir, f) for f in os.listdir(ep_dir) if f != PLAY_JSON] if path.exists(ep_dir) else []
     cwd = os.getcwd()
-    ep_paths  = [path.join(ep_dir, f) for f in os.listdir(ep_dir) if f != PLAY_JSON]
     cwd_paths = [path.join(cwd, f) for f in os.listdir(cwd) if f != PLAY_JSON]
     return ep_paths + cwd_paths

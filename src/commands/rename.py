@@ -17,8 +17,17 @@ def run(parsed: ParsedArgs, config: Config) -> None:
     title = play_next.title
     pattern = re.compile(play_next.format)
     files = sorted(get_episodes_path(play_next, config))
-    temp_matches = { path: match for path in files if (match := re.match(pattern, os.path.basename(path))) }
-    matches = { path: match for path, match in temp_matches }
+    temp_matches = { path: match for path in files if (match := re.match(pattern, path.basename(path))) }
+
+    if len(temp_matches) == 0:
+        return print("No files match the source format")
+    
+    matches = {
+        path: (
+            match.groups(), { k: tryorkeep(v, int, ValueError) for k, v in match.groupdict().items() }
+        ) for path, match in temp_matches.items()
+    }
+
     # episodes_dir = os.path.expandvars(os.path.expandvars(play_next.episode_dir or config.default_episode_dir))
 
     # files_temp = sorted([f for f in os.listdir(episodes_dir) if f != PLAY_JSON])

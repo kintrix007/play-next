@@ -44,6 +44,7 @@ The command line arguments are separated my whitespaces.
 - target_dir: `AbsoluteFilePath`
 - source_dir: `AbsoluteFilePath`
 - default_episode_dir: `UnresolvedFilePath`
+  - Looks in `default_episode_dir` alongside with `.` for episodes
 
 ### Arguments
 

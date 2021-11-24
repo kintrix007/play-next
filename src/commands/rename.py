@@ -25,13 +25,14 @@ def run(parsed: ParsedArgs, config: Config) -> None:
         return print("No files match the source format")
 
     rename_map = {
-        src: TARGET_FORMAT.format(*groups, title=title, **groupdict)
+        src: path.join(path.dirname(src), TARGET_FORMAT.format(*groups, title=title, **groupdict))
         for src, (groups, groupdict) in matches.items()
     }
 
     longest_source = max(map(len, rename_map.keys()))
     for src, dst in rename_map.items():
-        print("%-{}s -> %s".format(longest_source) % (path.basename(src), path.basename(dst)))
+        print("'%-{}s' -> '%s'".format(longest_source) % (path.basename(src), path.basename(dst)))
+        # print("'%-{}s' -> '%s'".format(longest_source) % (src, dst))
     
     res = input("\nIs this correct (Y/n) ").lower().strip()
     if res in [ "", "y", "yes" ]:

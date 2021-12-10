@@ -32,7 +32,7 @@ def run(parsed: ParsedArgs, config: Config) -> None:
     if len(rename_map) == 0:
         return print("All files are already named properly")
 
-    longest_source = max(map(len, rename_map.keys()))
+    longest_source = max(map(lambda x: len(path.basename(x)), rename_map.keys()))
     for src, dst in rename_map.items():
         src_base = path.basename(src)
         dst_base = path.basename(dst)

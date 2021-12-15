@@ -5,4 +5,4 @@ from src.link_utilz import relink
 cmd_name = "link"
 
 def run(parsed: ParsedArgs, config: Config) -> None:
-    relink(config, verbose=True)
+    relink(config, verbose=parsed.get_arg("verbose") != None)

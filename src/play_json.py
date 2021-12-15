@@ -1,6 +1,6 @@
 import os, json
 from os import path
-from src.utilz import PLAY_JSON, compose, normalize_file_name
+from src.utilz import PLAY_JSON, compose, normalize_file_name, to_title_format
 from src.config import Config
 from src.status_data import PLANNED, Status
 from typing import Union
@@ -8,6 +8,8 @@ from typing import Union
 class PlayNext:
     def __init__(self, play_json: dict) -> None:
         self.title       : str              = play_json["title"]
+        # self.full_title  : str              = None if "full_title" not in play_json else play_json["full_title"]
+        self.full_title  : str              = play_json["full_title"]
         self.watched     : int              = play_json["watched"]
         self.ep_count    : Union[int, None] = play_json["ep_count"]
         self.website     : Union[str, None] = play_json["website"]
@@ -19,6 +21,7 @@ class PlayNext:
     def to_dict(self) -> dict:
         return {
             "title":       self.title,
+            "full_title":  self.full_title,
             "watched":     self.watched,
             "ep_count":    self.ep_count,
             "website":     self.website,
@@ -44,6 +47,7 @@ def prompt_create_play_json(config: Config, title: str, to_dir: str, can_overwri
 
     play_json = {
         "title":       old_play_next.title       if old_play_next else title,
+        "full_title":  old_play_next.full_title  if old_play_next else to_title_format(title),
         "watched":     old_play_next.watched     if old_play_next else 0,
         "status":      str(old_play_next.status) if old_play_next else str(PLANNED),
         "starred":     old_play_next.starred     if old_play_next else False,

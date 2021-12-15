@@ -19,18 +19,20 @@ def relink(config: Config, verbose=False) -> None:
     prepare_dirs(dirs, verbose=verbose)
     
     names = [f for f in os.listdir(source_root) if path.isdir(path.join(source_root, f))]
-    longest = max(map(len, names)) + len(source_root)
+    longest = max(map(len, names))# + len(source_root)
     for series_name in names:
         series_dir = os.path.join(source_root, series_name)
         play_next = load_play_json(series_dir)
         os.chdir(series_dir)
 
-        def link_to(dir: str, start = "", verbose=False) -> None:
-            source_dir = os.path.abspath(series_dir)
-            link_target = os.path.join(dir, play_next.title)
+        def link_to(dir: str, verbose=False, starred=False) -> None:
+            source_dir = path.abspath(series_dir)
+            link_target = path.join(dir, play_next.title)
             os.symlink(source_dir, link_target)
             if verbose:
-                print(start + "%-{}s -> %s".format(longest) % (source_dir, link_target), sep="")
+                start = f"{Fore.YELLOW}{Style.BRIGHT}" if starred else ""
+                arrow = "*>" if starred else "->"
+                print(start + "%-{}s {} %s".format(longest, arrow) % (series_name, path.basename(dir)+"/"), sep="")
 
 
         { str(PLANNED):  lambda: link_to(planned_dir, verbose=verbose)
@@ -40,7 +42,7 @@ def relink(config: Config, verbose=False) -> None:
         } [str(play_next.status)]()
 
         if play_next.starred:
-            link_to(starred_dir, verbose=verbose, start=f"{Fore.YELLOW}{Style.BRIGHT}")
+            link_to(starred_dir, verbose=verbose, starred=True)
 
 def prepare_dirs(dirs: list[str], verbose=False) -> None:
     for dir in dirs:

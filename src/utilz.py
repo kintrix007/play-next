@@ -37,3 +37,6 @@ def compose(*functions: list[Callable[[Any], Any]]) -> Callable[[Any], Any]:
     def comp(f: Callable, g: Callable):
         return lambda x: f(g(x))
     return reduce(comp, functions)
+
+def to_title_format(str: str) -> str:
+    return " ".join([s.capitalize() if len(s) > 2 else s for s in str.replace("-", " ").split(" ")])

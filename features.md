@@ -29,6 +29,7 @@ The command line arguments are separated my whitespaces.
 ### Contents of `.play.json`
 
 - title: `String`
+- full_title: `String`
 - watched: `Int`
 - ep_count: `Int?`
 - website: `String?`
@@ -52,6 +53,8 @@ The command line arguments are separated my whitespaces.
   - only affects 'play' and 'open' mode
 - `--all`, `-a`
   - only affects 'info'
+- `--verbose`, `-v`
+  - only affects 'link'
 
 ### Commands
 

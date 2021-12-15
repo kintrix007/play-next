@@ -23,7 +23,7 @@ class ParsedArgs:
         self.command = command or DEFAULT_COMMAND
         self.args = args
         
-    def get_arg(self, name: str) -> Argument:
+    def get_arg(self, name: str) -> Argument | None:
         return next((arg for arg in self.args if arg.name == name), None)
     
     def __str__(self) -> str:
@@ -48,8 +48,10 @@ COMMANDS: dict[str, int] = {
 ARGUMENTS: dict[str, int] = {
     "with": 1,
     "all": 0,
+    "verbose": 0,
 }
 ARG_MAP = {
     "w": "with",
-    "a": "all"
+    "a": "all",
+    "v": "verbose",
 }

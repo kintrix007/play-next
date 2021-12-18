@@ -66,6 +66,7 @@ def prompt_create_play_json(config: Config, title: str, to_dir: str, can_overwri
             print("Incorrect format")
             prompt(key, do)
 
+    prompt("full_title")
     prompt("ep_count", int, ValueError, nullable=True)
     prompt("website")
     prompt("format")

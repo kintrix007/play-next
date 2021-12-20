@@ -7,12 +7,13 @@ BRIGHT = Style.BRIGHT
 NORMAL = Style.NORMAL
 
 cmd_name = "info"
+prefix = " "
 
 def run(parsed: ParsedArgs, config: Config) -> None:
     cwd = os.getcwd()
     play_next = load_play_json(cwd)
 
-    title = play_next.title
+    title = play_next.full_title
     star_str = f"{Fore.YELLOW}[*]{Fore.RESET}" if play_next.starred else ""
     status = str(play_next.status).capitalize()
     watched = play_next.watched
@@ -20,16 +21,16 @@ def run(parsed: ParsedArgs, config: Config) -> None:
     episode_dir = play_next.episode_dir
     website = play_next.website
 
-    print(f"{BRIGHT}{title}{NORMAL} - {BRIGHT}{status} {star_str}")
+    print(f"{prefix}{BRIGHT}{title}{NORMAL} [{status}] {BRIGHT}{star_str}")
     if ep_count == None:
-        print(f"Watched {watched} eps")
+        print(f"{prefix}Watched {watched} eps")
     else:
-        print(f"Watched {watched} of {ep_count} eps")
+        print(f"{prefix}Watched {watched}/{ep_count} eps")
     
     if not parsed.get_arg("all"): return
     if episode_dir:
         print()
-        print(f"Episode directory: '{episode_dir}'")
+        print(f"{prefix}Episode directory: '{episode_dir}'")
     if website:
-        print(f"Website: '{website}'")
+        print(f"{prefix}Website: '{website}'")
 

@@ -11,8 +11,7 @@ The command line arguments are separated by whitespaces.
 - Single letter arguments prefixed with a single dash (e.g `-V`)
 - Stacking single letter arguments (e.g `-fs`) \
   is interpreted the same as typing `-f -s`
-- Marking the end of command line arguments explicitly with two dashes. (e.g `--`) \
-  *To be added later*
+- Marking the end of command line arguments explicitly with two dashes. (e.g `--`)
 
 ### Features
 

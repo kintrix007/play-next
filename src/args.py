@@ -5,8 +5,13 @@ from src.arg_data import COMMANDS, ARGUMENTS, ARG_MAP, CommandLineArgument, Comm
 def _expand_args(in_args: list[str]) -> list[str]:
     result = []
 
+    arguments_ended = False
     for arg in in_args:
-        if arg.startswith("-") and not arg.startswith("--"):
+        if arg == "--":
+            arguments_ended = True
+            result.append(arg)
+        elif arg.startswith("-") and not arg.startswith("--") and not arguments_ended:
+            # assert all([letter in ARG_MAP for letter in arg[1:]]) # * Will get a KeyError without it, so it is unneded
             result += ["--" + ARG_MAP[letter] for letter in arg[1:]]
         else:
             result.append(arg)
@@ -33,18 +38,23 @@ def parse_args(in_args: list[str]):
         elif isinstance(current_cla, Argument):
             args.append(current_cla)
 
+    arguments_ended = False
     for arg in expanded:
-        params_left -= 1
+        if arg == "--":
+            arguments_ended = True
+            continue
 
+        params_left -= 1
         if params_left >= 0: # still need to add params
             assert current_cla != None
             current_cla.params.append(arg)
         if params_left == 0: # params all in
+            assert current_cla != None
             add_arg(current_cla)
-                
+            print(arg); print(params_left)
             current_cla = None
-        
-        if params_left < 0:
+        elif params_left < 0 and not arguments_ended:
+            assert current_cla == None
             if arg.startswith("--"):
                 arg = arg[2:]
                 assert arg in ARGUMENTS, f"'--{arg}' is not a valid argument"
@@ -57,6 +67,7 @@ def parse_args(in_args: list[str]):
             
             if params_left == 0:
                 add_arg(current_cla)
+                print(arg); print(params_left)
                 current_cla = None
     
     assert current_cla == None and params_left <= 0, f"Missing parameters for '{current_cla.name}'"

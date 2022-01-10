@@ -1,5 +1,5 @@
 # Play Next
-### A command line utility for manging your series progress
+### A command line utility for manging my series progress
 
 ---
 

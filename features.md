@@ -5,23 +5,23 @@
 
 ### Command Line Arguments
 
-The command line arguments are separated my whitespaces.
+The command line arguments are separated by whitespaces.
 
 - A string of letters prefixed with two dashes (e.g `--version`)
 - Single letter arguments prefixed with a single dash (e.g `-V`)
 - Stacking single letter arguments (e.g `-fs`) \
   is interpreted the same as typing `-f -s`
 - Marking the end of command line arguments explicitly with two dashes. (e.g `--`) \
-  Might be added later
+  *To be added later*
 
 ### Features
 
-- **Tracks**
+- **Tracks for you**
   - episode count
   - episode progress in all series
   - favourites
   - watching status
-- **Eases**
+- **Eases for you**
   - opening website of series
   - playing the next episode
   - applying a naming convention to the episodes
@@ -60,12 +60,13 @@ The command line arguments are separated my whitespaces.
 
 - `config` - can be used for reconfig, should update everything accordingly
 - `create <title>`
+  - full title
   - ep count
   - website
   - original file format
   - episode dir
 - `reinit`
-  - same as `create`
+  - same fields as `create`
 - `open`
   - open series website
 - `status <new status>`
@@ -81,7 +82,7 @@ The command line arguments are separated my whitespaces.
 - `star`
   - star a series
 - `unstar`
-  - star a series
+  - unstar a series
 - `info`
 - `play` - *default*
 
@@ -92,7 +93,6 @@ The command line arguments are separated my whitespaces.
 - `play-next reinit`
 - `play-next link`
 - `play-next rename`
-- `play-next`
 - `play-next` or `play-next play` or `play-next --with vlc`
 - `play-next open` or `play-next open --with firefox`
 - `play-next info`

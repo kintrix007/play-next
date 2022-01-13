@@ -51,7 +51,6 @@ def parse_args(in_args: list[str]):
         if params_left == 0: # params all in
             assert current_cla != None
             add_arg(current_cla)
-            print(arg); print(params_left)
             current_cla = None
         elif params_left < 0 and not arguments_ended:
             assert current_cla == None
@@ -67,7 +66,6 @@ def parse_args(in_args: list[str]):
             
             if params_left == 0:
                 add_arg(current_cla)
-                print(arg); print(params_left)
                 current_cla = None
     
     assert current_cla == None and params_left <= 0, f"Missing parameters for '{current_cla.name}'"

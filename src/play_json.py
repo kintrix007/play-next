@@ -37,11 +37,9 @@ def dir_path_from_title(config: Config, title: str) -> str:
 
 def prompt_create_play_json(config: Config, title: str, to_dir: str, can_overwrite=True):
     play_json_dir = to_dir
-    if not path.exists(play_json_dir):
-        os.mkdir(play_json_dir)
-    
     play_json_path = path.join(play_json_dir, PLAY_JSON)
-    assert not (not can_overwrite and path.exists(play_json_path)), f"'{play_json_dir}' already exists!"
+    # assert not (not can_overwrite and path.exists(play_json_path)), f"'{play_json_dir}' already exists!"
+    assert not path.exists(play_json_path) or can_overwrite, f"'{play_json_dir}' already exists!"
 
     old_play_next = load_play_json_nullable(play_json_dir)
 
@@ -74,6 +72,9 @@ def prompt_create_play_json(config: Config, title: str, to_dir: str, can_overwri
 
     play_next = PlayNext(play_json)
     
+    if not path.exists(play_json_dir):
+        os.mkdir(play_json_dir)
+
     with open(play_json_path, "w") as f:
         as_text = json.dumps(play_next.to_dict(), indent=2, sort_keys=True)
         f.write(as_text)

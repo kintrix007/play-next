@@ -3,20 +3,19 @@ from os import path
 from src.utilz import PLAY_JSON, compose, normalize_file_name, to_title_format
 from src.config import Config
 from src.status_data import PLANNED, Status
-from typing import Union
 
 class PlayNext:
     def __init__(self, play_json: dict) -> None:
-        self.title       : str              = play_json["title"]
-        # self.full_title  : str              = None if "full_title" not in play_json else play_json["full_title"]
-        self.full_title  : str              = play_json["full_title"]
-        self.watched     : int              = play_json["watched"]
-        self.ep_count    : Union[int, None] = play_json["ep_count"]
-        self.website     : Union[str, None] = play_json["website"]
-        self.format      : str              = play_json["format"]
-        self.status      : Status           = Status().from_str(play_json["status"])
-        self.starred     : bool             = play_json["starred"]
-        self.episode_dir : Union[str, None] = play_json["episode_dir"]
+        self.title       : str        = play_json["title"]
+        # self.full_title  : str | None = None if "full_title" not in play_json else play_json["full_title"] #! Don't allow for `None` anymore
+        self.full_title  : str        = play_json["full_title"]
+        self.watched     : int        = play_json["watched"]
+        self.ep_count    : int | None = play_json["ep_count"]
+        self.website     : str | None = play_json["website"]
+        self.format      : str        = play_json["format"]
+        self.status      : Status     = Status().from_str(play_json["status"])
+        self.starred     : bool       = play_json["starred"]
+        self.episode_dir : str | None = play_json["episode_dir"]
     
     def to_dict(self) -> dict:
         return {
@@ -90,7 +89,7 @@ def load_play_json(play_json_dir: str) -> PlayNext:
         play_json_dict = json.load(f)
     return PlayNext(play_json_dict)
 
-def load_play_json_nullable(play_json_dir: str) -> Union[PlayNext, None]:
+def load_play_json_nullable(play_json_dir: str) -> PlayNext | None:
     try:
         return load_play_json(play_json_dir)
     except AssertionError:

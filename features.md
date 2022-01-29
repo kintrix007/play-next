@@ -83,6 +83,9 @@ The command line arguments are separated by whitespaces.
 - `unstar`
   - unstar a series
 - `info`
+- `seek <ep>`
+  - sets the last watched episode so that the next one will be `ep`
+  - if `ep` is preceeded with either `+` or `-`, then it will seek that many episodes forward or backwards respectively. 
 - `play` - *default*
 
 ### Example commands

@@ -1,4 +1,3 @@
-from typing import Union
 from src.arg_data import COMMANDS, ARGUMENTS, ARG_MAP, CommandLineArgument, Command, Argument, ParsedArgs
 
 
@@ -21,11 +20,11 @@ def _expand_args(in_args: list[str]) -> list[str]:
 def parse_args(in_args: list[str]):
     expanded = _expand_args(in_args)
 
-    command: Union[Command, None] = None
-    args:    list[Argument]       = []
+    command: Command | None = None
+    args:    list[Argument] = []
 
     params_left = 0
-    current_cla: Union[CommandLineArgument, None] = None
+    current_cla: CommandLineArgument | None = None
 
     def add_arg(current_cla: CommandLineArgument) -> None:
         nonlocal command

@@ -1,6 +1,3 @@
-from typing import Union
-
-
 class CommandLineArgument:
     def __init__(self, name: str, params: list[str]) -> None:
         self.name = name
@@ -19,7 +16,7 @@ class Argument(CommandLineArgument):
 
 
 class ParsedArgs:
-    def __init__(self, command: Union[Command, None], args: list[Argument]) -> None:
+    def __init__(self, command: Command | None, args: list[Argument]) -> None:
         self.command = command or DEFAULT_COMMAND
         self.args = args
         
@@ -34,24 +31,25 @@ class ParsedArgs:
 DEFAULT_COMMAND = Command("play", [])
 
 COMMANDS: dict[str, int] = {
-    "play": 0,
     "create": 1,
-    "reinit": 0,
-    "open": 0,
-    "status": 1,
-    "link": 0,
-    "rename": 0,
-    "star": 0,
-    "unstar": 0,
     "info": 0,
+    "link": 0,
+    "open": 0,
+    "play": 0,
+    "reinit": 0,
+    "rename": 0,
+    "seek": 1,
+    "star": 0,
+    "status": 1,
+    "unstar": 0,
 }
 ARGUMENTS: dict[str, int] = {
-    "with": 1,
     "all": 0,
     "verbose": 0,
+    "with": 1,
 }
 ARG_MAP = {
-    "w": "with",
     "a": "all",
     "v": "verbose",
+    "w": "with",
 }

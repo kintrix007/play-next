@@ -1,11 +1,12 @@
 {
   "comment": "This is for demonstration purposes. This is how a '.play.json' would look like, but without the 'comment' field.",
-  "ep_count": 24,
+  "ep_count": 12,
   "episode_dir": ".",
   "format": "^(?:[^\\d]*\\d+){0}[^\\d]*0*(?P<ep>\\d+).*\\.(?P<ext>[\\w\\d]+)$",
-  "starred": true,
+  "full_title": "Play Next",
+  "starred": false,
   "status": "planned",
-  "title": "random-title",
+  "title": "play-next",
   "watched": 0,
-  "website": "https://www.google.com"
+  "website": null
 }

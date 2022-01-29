@@ -1,5 +1,6 @@
 from src.config import Config
-from src.arg_data import COMMANDS, ParsedArgs
+from src.arg_data import COMMANDS
+from src.command_line_argument import ParsedArgs
 from importlib import import_module
 
 COMMAND_ROOT = "src.commands"

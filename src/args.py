@@ -20,7 +20,7 @@ def _expand_args(in_args: list[str]) -> list[str]:
 def parse_args(in_args: list[str]):
     expanded = _expand_args(in_args)
 
-    command: Command = DEFAULT_COMMAND
+    command: Command | None = None
     args:    list[Argument] = []
 
     params_left = 0
@@ -69,4 +69,4 @@ def parse_args(in_args: list[str]):
     
     assert current_cla == None and params_left <= 0, f"Missing parameters for '{current_cla.name}'"
 
-    return ParsedArgs(command, args)
+    return ParsedArgs(command or DEFAULT_COMMAND, args)

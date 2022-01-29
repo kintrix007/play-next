@@ -1,5 +1,5 @@
-from src.arg_data import COMMANDS, ARGUMENTS, ARG_MAP, CommandLineArgument, Command, Argument, ParsedArgs
-
+from src.command_line_argument import CommandLineArgument, Command, Argument, ParsedArgs
+from src.arg_data import COMMANDS, ARGUMENTS, ARG_MAP, DEFAULT_COMMAND
 
 def _expand_args(in_args: list[str]) -> list[str]:
     result = []
@@ -20,7 +20,7 @@ def _expand_args(in_args: list[str]) -> list[str]:
 def parse_args(in_args: list[str]):
     expanded = _expand_args(in_args)
 
-    command: Command | None = None
+    command: Command = DEFAULT_COMMAND
     args:    list[Argument] = []
 
     params_left = 0

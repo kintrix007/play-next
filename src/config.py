@@ -34,7 +34,6 @@ def prompt_create_config() -> None:
     with open(CONFIG_PATH, "w") as f:
         json.dump(config, f, indent=2)
 
-
 def load_config() -> Config:
     if not os.path.exists(CONFIG_PATH):
         prompt_create_config()

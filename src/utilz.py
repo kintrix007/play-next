@@ -3,14 +3,12 @@ from os import path
 from typing import Any, Callable
 from functools import reduce
 
-
 PLAY_JSON = ".play.json"
 CONFIG_FILE = ".play-next.config"
 EPISODE_SYMLINK_NAME = "episodes"
 DEFAULT_BROWSER = "xdg-open"
 DEFAULT_PLAYER = "vlc"
 TARGET_FORMAT = "{title}-{ep:02d}.{ext}"
-
 
 def normalize_file_name(title: str) -> str:
     prev_result = ""

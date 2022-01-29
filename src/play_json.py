@@ -80,7 +80,6 @@ def prompt_create_play_json(config: Config, title: str, to_dir: str, can_overwri
     
     return play_next
 
-
 def load_play_json(play_json_dir: str) -> PlayNext:
     play_json_path = path.join(play_json_dir, PLAY_JSON)
     assert path.exists(play_json_path), f"File '{play_json_path}' does not exist"
@@ -100,7 +99,6 @@ def overwrite_play_json(play_json_dir: str, new_play_next: PlayNext) -> None:
     play_json_path = path.join(play_json_dir, PLAY_JSON)
     with open(play_json_path, "w") as f:
         json.dump(new_play_next.to_dict(), f, indent=2, sort_keys=True)
-
 
 def get_episodes_path(play_next: PlayNext, config: Config):
     expand = compose(path.expanduser, path.expandvars)

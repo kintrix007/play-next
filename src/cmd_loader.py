@@ -10,7 +10,6 @@ class CmdTemplate:
     def run(self, parsed: ParsedArgs, config: Config) -> None:
         raise NotImplementedError()
 
-
 def load_commands() -> list[CmdTemplate]:
     modules = [import_module(f"{COMMAND_ROOT}.{cmd}") for cmd in COMMANDS.keys()]
     return modules

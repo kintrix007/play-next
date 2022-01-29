@@ -47,7 +47,6 @@ def run(parsed: ParsedArgs, config: Config) -> None:
     else:
         print("Aborted")
 
-
 def try_parse_int(on: str):
     try:
         return int(on)

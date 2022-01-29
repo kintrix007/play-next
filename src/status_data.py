@@ -30,7 +30,6 @@ class Status:
     def __ne__(self, s: Status) -> bool:
         return str(self) != str(s)
 
-
 PLANNED  = Status().from_str("planned")
 WATCHING = Status().from_str("watching")
 DROPPED  = Status().from_str("dropped")

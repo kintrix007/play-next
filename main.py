@@ -21,7 +21,6 @@ def main():
             mod.run(parsed, config)
             break
 
-
 if __name__ == "__main__":
     main(); exit()
 

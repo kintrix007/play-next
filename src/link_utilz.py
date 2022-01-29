@@ -5,7 +5,6 @@ from src.status_data import DROPPED, FINISHED, PLANNED, WATCHING
 from src.config import Config
 from colorama import Fore, Style
 
-
 def relink(config: Config, verbose=False) -> None:
     source_root  = config.source_dir
     target_root  = config.target_dir
@@ -33,7 +32,6 @@ def relink(config: Config, verbose=False) -> None:
                 start = f"{Fore.YELLOW}{Style.BRIGHT}" if starred else ""
                 arrow = "*>" if starred else "->"
                 print(start + "%-{}s {} %s".format(longest, arrow) % (series_name, path.basename(dir)+"/"), sep="")
-
 
         { str(PLANNED):  lambda: link_to(planned_dir, verbose=verbose)
         , str(WATCHING): lambda: link_to(watching_dir, verbose=verbose)

@@ -6,6 +6,7 @@ COMMANDS: dict[str, int] = {
     "create": 1,
     "info": 0,
     "link": 0,
+    "list": 0,
     "open": 0,
     "play": 0,
     "reinit": 0,
@@ -17,7 +18,6 @@ COMMANDS: dict[str, int] = {
 }
 
 ARGUMENTS: dict[str, int] = {
-    "all": 0,
     "verbose": 0,
     "with": 1,
 }

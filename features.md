@@ -51,14 +51,13 @@ The command line arguments are separated by whitespaces.
 
 - `--with`, `-w`
   - only affects 'play' and 'open' mode
-- `--all`, `-a`
-  - only affects 'info'
 - `--verbose`, `-v`
-  - only affects 'link'
+  - only affects 'link', 'info' and 'list'
 
 ### Commands
 
 - `config` - can be used for reconfig, should update everything accordingly
+- `list` - Shows a full list of series in categories
 - `create <title>`
   - full title
   - ep count

@@ -1,25 +1,23 @@
 import os
+from os import path
 from src.args import ParsedArgs
 from src.config import Config
-from src.play_json import load_play_json_nullable, prompt_create_play_json
-from src.utilz import EPISODE_SYMLINK_NAME, is_same_path, normalized_abs_path
+from src.play_json import load_play_json_nullable, make_ep_symlink, prompt_create_play_json
+from src.utilz import EPISODE_SYMLINK_NAME, is_same_path
 
 cmd_name = "reinit"
 
 def run(parsed: ParsedArgs, config: Config) -> None:
-    cwd = os.getcwd()
-    prev_play_next = load_play_json_nullable(cwd)
-    filename = os.path.basename(os.path.normpath(cwd))
-    title = prev_play_next.title if prev_play_next != None else filename
-    
-    play_next = prompt_create_play_json(config, title, cwd)
+    source_dir_path = os.getcwd()
+    prev_play_next = load_play_json_nullable(source_dir_path)
+    source_dir_name = path.basename(path.normpath(source_dir_path))
+    title = prev_play_next.title if prev_play_next != None else source_dir_name
+    play_next = prompt_create_play_json(config, title, source_dir_path)
+    ep_symlink_path = path.join(source_dir_path, EPISODE_SYMLINK_NAME)
 
-    ep_symlink_path = os.path.join(cwd, EPISODE_SYMLINK_NAME)
-    if os.path.islink(ep_symlink_path):
+    if path.islink(ep_symlink_path):
         os.unlink(ep_symlink_path)
     
-    if not is_same_path(play_next.episode_dir, cwd):
-        ep_dir = normalized_abs_path(play_next.episode_dir)
-        os.symlink(ep_dir, ep_symlink_path)
+    make_ep_symlink(source_dir_path, play_next.episode_dir, title)
     
     print(f"Successfully reinitialized '{title}'")

@@ -44,7 +44,8 @@ The command line arguments are separated by whitespaces.
 - target_dir: `AbsoluteFilePath`
 - source_dir: `AbsoluteFilePath`
 - default_episode_dir: `UnresolvedFilePath`
-  - Looks in `default_episode_dir` alongside with `.` for episodes
+  - Looks at `default_episode_dir`, `.`, and their subdirectories for a directory matching the title of the series,
+    and takes the episodes from there
 
 ### Arguments
 
@@ -85,7 +86,7 @@ The command line arguments are separated by whitespaces.
 - `info`
 - `seek <ep>`
   - sets the last watched episode so that the next one will be `ep`
-  - if `ep` is preceeded with either `+` or `-`, then it will seek that many episodes forward or backwards respectively. 
+  - if `ep` is prefixed with either `+` or `-`, then it will seek that many episodes forward or backwards respectively. 
 - `play` - *default*
 
 ### Example commands

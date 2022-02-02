@@ -1,6 +1,6 @@
 import os, json
 from os import path
-from src.utilz import PLAY_JSON, compose, normalize_file_name, to_title_format
+from src.utilz import EPISODE_SYMLINK_NAME, PLAY_JSON, compose, is_same_path, normalize_file_name, normalized_abs_path, to_title_format
 from src.config import Config
 from src.status_data import PLANNED, Status
 
@@ -79,6 +79,25 @@ def prompt_create_play_json(config: Config, title: str, to_dir: str, can_overwri
         f.write(as_text)
     
     return play_next
+
+def make_ep_symlink(source_dir_path: str, relative_ep_dir_path: str, title: str, verbose=True) -> None:
+    prev_dir = os.getcwd()
+    os.chdir(source_dir_path)
+
+    ep_dir_path = normalized_abs_path(relative_ep_dir_path)
+    if path.normcase(path.normpath(ep_dir_path)) != "." and not is_same_path(ep_dir_path, source_dir_path):
+        ep_dir_name = path.basename(path.abspath(ep_dir_path))
+        if ep_dir_name == title:
+            os.symlink(ep_dir_path, path.join(source_dir_path, EPISODE_SYMLINK_NAME))
+        else:
+            sub_ep_dir_path = path.join(ep_dir_path, title)
+            if not path.isdir(sub_ep_dir_path):
+                os.mkdir(sub_ep_dir_path)
+                if verbose: print(f"Created directory '{sub_ep_dir_path}'")
+
+            os.symlink(sub_ep_dir_path, os.path.join(source_dir_path, EPISODE_SYMLINK_NAME))
+    
+    os.chdir(prev_dir)
 
 def load_play_json(play_json_dir: str) -> PlayNext:
     play_json_path = path.join(play_json_dir, PLAY_JSON)

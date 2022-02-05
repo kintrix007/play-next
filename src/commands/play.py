@@ -1,5 +1,4 @@
 import os
-from os import path
 from src.args import ParsedArgs
 from src.config import Config
 from src.play_json import get_episode_files, load_play_json, overwrite_play_json

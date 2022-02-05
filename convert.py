@@ -16,5 +16,5 @@ for title in all_titles:
     if play_next == None: continue
     if play_next.full_title == None:
         play_next.full_title = to_title_format(play_next.title)
-    overwrite_play_json(dir_path, play_next)
+    # overwrite_play_json(dir_path, play_next)
     print(f"Converted '{play_next.full_title}'")

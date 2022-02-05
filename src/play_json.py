@@ -121,7 +121,11 @@ def overwrite_play_json(play_json_dir: str, new_play_next: PlayNext) -> None:
         json.dump(new_play_next.to_dict(), f, indent=2, sort_keys=True)
 
 def get_episode_files(cwd: str) -> list[str]:
-    inter_files = os.listdir(cwd)
+    inter_files = [path.join(cwd, f) for f in os.listdir(cwd)]
     exter_files_path = path.join(cwd, EPISODE_SYMLINK_NAME)
-    exter_files = os.listdir(exter_files_path) if path.exists(exter_files_path) else []
-    return [f for f in inter_files + exter_files if f != PLAY_JSON]
+    exter_files = (
+        [path.join(exter_files_path, f) for f in os.listdir(exter_files_path)]
+        if path.exists(exter_files_path)
+        else []
+    )
+    return inter_files + exter_files

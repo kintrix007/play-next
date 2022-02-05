@@ -37,7 +37,6 @@ def run(parsed: ParsedArgs, config: Config) -> None:
         src_base = path.basename(src)
         dst_base = path.basename(dst)
         print("%-{}s -> %s".format(longest_source) % (src_base, dst_base))
-        # print("'%-{}s' -> '%s'".format(longest_source) % (src, dst))
     
     res = input("\nIs this correct (Y/n) ").lower().strip()
     if res in [ "", "y", "yes" ]:

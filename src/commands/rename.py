@@ -2,8 +2,8 @@ import os, re
 from os import path
 from src.args import ParsedArgs
 from src.config import Config
-from src.play_json import load_play_json, get_episodes_path
-from src.utilz import TARGET_FORMAT
+from src.play_json import load_play_json
+from src.utilz import EPISODE_SYMLINK_NAME, PLAY_JSON, TARGET_FORMAT
 
 cmd_name = "rename"
 
@@ -11,10 +11,14 @@ def run(parsed: ParsedArgs, config: Config) -> None:
     cwd = os.getcwd()
     play_next = load_play_json(cwd)
 
+    inter_files = os.listdir(cwd)
+    exter_files_path = path.join(cwd, EPISODE_SYMLINK_NAME)
+    exter_files = os.listdir(exter_files_path) if path.exists(exter_files_path) else []
+    files = [f for f in inter_files + exter_files if f != PLAY_JSON]
+
     title = play_next.title
     pattern = re.compile(play_next.format)
-    files = sorted(get_episodes_path(play_next, config))
-    
+
     matches = {
         filepath: (match.groups(), { k: try_parse_int(v) for k, v in match.groupdict().items() })
         for filepath in files

@@ -15,7 +15,8 @@ class PlayNext:
         self.format      : str        = play_json["format"]
         self.status      : Status     = Status().from_str(play_json["status"])
         self.starred     : bool       = play_json["starred"]
-        self.episode_dir : str | None = play_json["episode_dir"]
+        self.episode_dir : str        = play_json["episode_dir"]
+        assert self.episode_dir != None
     
     def to_dict(self) -> dict:
         return {
@@ -118,11 +119,3 @@ def overwrite_play_json(play_json_dir: str, new_play_next: PlayNext) -> None:
     play_json_path = path.join(play_json_dir, PLAY_JSON)
     with open(play_json_path, "w") as f:
         json.dump(new_play_next.to_dict(), f, indent=2, sort_keys=True)
-
-def get_episodes_path(play_next: PlayNext, config: Config):
-    expand = compose(path.expanduser, path.expandvars)
-    ep_dir = expand(play_next.episode_dir or config.default_episode_dir)
-    ep_paths  = [path.join(ep_dir, f) for f in os.listdir(ep_dir) if f != PLAY_JSON] if path.exists(ep_dir) else []
-    cwd = os.getcwd()
-    cwd_paths = [path.join(cwd, f) for f in os.listdir(cwd) if f != PLAY_JSON]
-    return ep_paths + cwd_paths

@@ -22,7 +22,7 @@ def main():
             break
 
 if __name__ == "__main__":
-    # main(); exit() #? For debugging
+    main(); exit() #? For debugging
 
     try: 
         main()

@@ -46,6 +46,8 @@ The command line arguments are separated by whitespaces.
 - default_episode_dir: `UnresolvedFilePath`
   - Looks at `default_episode_dir`, `.`, and their subdirectories for a directory matching the title of the series,
     and takes the episodes from there
+- default_website: `StringTemplate`
+  - `{title}` will be replaced with the `full_title` of the series
 
 ### Arguments
 

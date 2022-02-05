@@ -2,9 +2,9 @@ import os
 from os import path
 from src.args import ParsedArgs
 from src.config import Config
-from src.play_json import get_episodes_path, load_play_json, overwrite_play_json
+from src.play_json import get_episode_files, load_play_json, overwrite_play_json
 from src.status_data import DROPPED, FINISHED, PLANNED, WATCHING
-from src.utilz import DEFAULT_PLAYER, EPISODE_SYMLINK_NAME, PLAY_JSON, TARGET_FORMAT
+from src.utilz import DEFAULT_PLAYER, TARGET_FORMAT
 from colorama import Style
 
 cmd_name = "play"
@@ -16,10 +16,7 @@ def run(parsed: ParsedArgs, config: Config) -> None:
     next_ep = play_next.watched + 1
     next_ep_name_start = TARGET_FORMAT.format(title=play_next.title, ep=next_ep, ext="")
 
-    inter_files = os.listdir(cwd)
-    exter_files_path = path.join(cwd, EPISODE_SYMLINK_NAME)
-    exter_files = os.listdir(exter_files_path) if path.exists(exter_files_path) else []
-    files = [f for f in inter_files + exter_files if f != PLAY_JSON]
+    files = get_episode_files(cwd)
 
     try:
         next_ep_path = next(f for f in files if os.path.basename(f).startswith(next_ep_name_start))

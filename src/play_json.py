@@ -1,6 +1,6 @@
 import os, json
 from os import path
-from src.utilz import EPISODE_SYMLINK_NAME, PLAY_JSON, compose, is_same_path, normalize_file_name, normalized_abs_path, to_title_format
+from src.utilz import EPISODE_SYMLINK_NAME, PLAY_JSON, is_same_path, normalize_file_name, normalized_abs_path, to_title_format
 from src.config import Config
 from src.status_data import PLANNED, Status
 
@@ -119,3 +119,9 @@ def overwrite_play_json(play_json_dir: str, new_play_next: PlayNext) -> None:
     play_json_path = path.join(play_json_dir, PLAY_JSON)
     with open(play_json_path, "w") as f:
         json.dump(new_play_next.to_dict(), f, indent=2, sort_keys=True)
+
+def get_episode_files(cwd: str) -> list[str]:
+    inter_files = os.listdir(cwd)
+    exter_files_path = path.join(cwd, EPISODE_SYMLINK_NAME)
+    exter_files = os.listdir(exter_files_path) if path.exists(exter_files_path) else []
+    return [f for f in inter_files + exter_files if f != PLAY_JSON]

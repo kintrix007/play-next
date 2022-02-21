@@ -9,6 +9,7 @@ class Config:
         self.source_dir            = config_dict["source_dir"]
         self.default_episode_dir   = config_dict["default_episode_dir"]
         self.default_source_format = config_dict["default_source_format"]
+        self.default_website       = config_dict["default_website"]
     
     def __str__(self) -> str:
         return str(self._as_dict)
@@ -19,6 +20,7 @@ DEFAULTS: dict[str, str] = {
     "source_dir": path.expanduser("~/Documents/.series-source/"),
     "default_episode_dir": ".",
     "default_source_format": r"^(?:[^\d]*\d+){0}[^\d]*0*(?P<ep>\d+).*\.(?P<ext>[\w\d]+)$",
+    "default_website": "https://www.google.com/search?q={title}",
 }
 
 def prompt_create_config() -> None:
@@ -40,3 +42,6 @@ def load_config() -> Config:
     with open(CONFIG_PATH, "r") as f:
         config = json.load(f)
     return Config(config)
+
+def default_website(config: Config, full_title: str) -> str:
+    return config.default_website.format(title=full_title.replace(" ", "%20"))

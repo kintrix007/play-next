@@ -1,7 +1,7 @@
 import os, json
 from os import path
 from src.utilz import EPISODE_SYMLINK_NAME, PLAY_JSON, is_same_path, normalize_file_name, normalized_abs_path, to_title_format
-from src.config import Config
+from src.config import Config, default_website
 from src.status_data import PLANNED, Status
 
 class PlayNext:
@@ -11,7 +11,7 @@ class PlayNext:
         self.full_title  : str        = play_json["full_title"]
         self.watched     : int        = play_json["watched"]
         self.ep_count    : int | None = play_json["ep_count"]
-        self.website     : str | None = play_json["website"]
+        self.website     : str        = play_json["website"]
         self.format      : str        = play_json["format"]
         self.status      : Status     = Status().from_str(play_json["status"])
         self.starred     : bool       = play_json["starred"]
@@ -43,14 +43,15 @@ def prompt_create_play_json(config: Config, title: str, to_dir: str, can_overwri
 
     old_play_next = load_play_json_nullable(play_json_dir)
 
+    full_title = old_play_next.full_title if old_play_next else to_title_format(title)
     play_json = {
         "title":       old_play_next.title       if old_play_next else title,
-        "full_title":  old_play_next.full_title  if old_play_next else to_title_format(title),
+        "full_title":  full_title,
         "watched":     old_play_next.watched     if old_play_next else 0,
         "status":      str(old_play_next.status) if old_play_next else str(PLANNED),
         "starred":     old_play_next.starred     if old_play_next else False,
         "ep_count":    old_play_next.ep_count    if old_play_next else None,
-        "website":     old_play_next.website     if old_play_next else None,
+        "website":     old_play_next.website     if old_play_next else default_website(config, full_title),
         "format":      old_play_next.format      if old_play_next else config.default_source_format,
         "episode_dir": old_play_next.episode_dir if old_play_next else config.default_episode_dir,
     }

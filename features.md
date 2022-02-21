@@ -58,7 +58,7 @@ The command line arguments are separated by whitespaces.
 
 ### Commands
 
-- `config` - can be used for reconfig, should update everything accordingly
+- `config` - can be used for reconfig, should update everything accordingly - **[Not implemented]**
 - `list` - Shows a full list of series in categories
 - `create <title>`
   - full title

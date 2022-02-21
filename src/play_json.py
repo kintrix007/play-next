@@ -86,7 +86,7 @@ def make_ep_symlink(source_dir_path: str, relative_ep_dir_path: str, title: str,
     os.chdir(source_dir_path)
 
     ep_dir_path = normalized_abs_path(relative_ep_dir_path)
-    if not path.samefile(ep_dir_path, source_dir_path):
+    if not (path.isdir(ep_dir_path) and path.samefile(ep_dir_path, source_dir_path)):
         ep_dir_name = path.basename(path.abspath(ep_dir_path))
         if ep_dir_name == title:
             os.symlink(ep_dir_path, path.join(source_dir_path, EPISODE_SYMLINK_NAME))
@@ -97,7 +97,7 @@ def make_ep_symlink(source_dir_path: str, relative_ep_dir_path: str, title: str,
                     os.mkdir(sub_ep_dir_path)
                     if verbose: print(f"Created directory '{sub_ep_dir_path}'")
             elif verbose:
-                print(f"Could not create directory '{sub_ep_dir_path}', because it's parent directory does not exist")
+                print(f"Could not create directory '{sub_ep_dir_path}', because its parent directory does not exist")
 
             os.symlink(sub_ep_dir_path, os.path.join(source_dir_path, EPISODE_SYMLINK_NAME))
     

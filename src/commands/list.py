@@ -20,9 +20,9 @@ def run(parsed: ParsedArgs, config: Config) -> None:
     
     print("\n\n".join([
         Style.BRIGHT + Fore.BLUE
-        + "-" * len(s) + "\n"
-        + s.capitalize() + ""
-        + "\n" + "-" * len(s) + "\n"
+        + " .-" + "-" * len(s) + "-.\n"
+        + " | " + s.capitalize() + "" + " |\n"
+        + " '-" + "-" * len(s) + "-'\n"
         + Style.RESET_ALL
         
         #TODO Make this look good

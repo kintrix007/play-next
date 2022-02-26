@@ -13,7 +13,7 @@ class CmdTemplate:
         raise NotImplementedError()
 
 def load_commands() -> list[CmdTemplate]:
-    commands: list[CmdTemplate] = [import_module(f"{COMMAND_ROOT}.{cmd}") for cmd in COMMANDS.keys()]
+    # commands: list[CmdTemplate] = [import_module(f"{COMMAND_ROOT}.{cmd}") for cmd in COMMANDS.keys()]
     commands: list[CmdTemplate] = []
     for module_name in COMMANDS.keys():
         cmd: CmdTemplate = import_module(f"{COMMAND_ROOT}.{module_name}")

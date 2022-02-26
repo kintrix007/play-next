@@ -38,3 +38,7 @@ def compose(*functions: list[Callable[[Any], Any]]) -> Callable[[Any], Any]:
 
 def to_title_format(str: str) -> str:
     return " ".join([s.capitalize() if len(s) > 2 else s for s in str.lower().replace("-", " ").split(" ")])
+
+def clamp_length(str: str, length: int) -> str:
+    if len(str) <= length: return str
+    else:                  return str[:length-3] + "..."

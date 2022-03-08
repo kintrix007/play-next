@@ -43,4 +43,8 @@ def format_title(play_next: PlayNext) -> str:
         if play_next.starred else
         Style.DIM + "[ ]" + Style.RESET_ALL
     )
-    return starred + " " * 2 + clamp_length(play_next.full_title, 50)
+    ep_progress = f"({play_next.watched}/" + ("??" if play_next.ep_count == None else f"{play_next.ep_count}") + ")"
+
+    result = starred + " " * 2 + f"{clamp_length(play_next.full_title, 50):50}"
+    if play_next.status in [ WATCHING, DROPPED ]: result += " " + ep_progress
+    return result

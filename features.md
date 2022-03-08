@@ -55,6 +55,8 @@ The command line arguments are separated by whitespaces.
   - only affects 'play' and 'open' mode
 - `--verbose`, `-v`
   - only affects 'link', 'info' and 'list'
+- `--help`, `-h` - **[Not implemented]**
+  - shows help sheet then terminates
 
 ### Commands
 

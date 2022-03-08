@@ -25,10 +25,10 @@ class Status:
         return str(self)
     
     def __eq__(self, s: Status) -> bool:
-        return str(self) == str(s)
+        return STATUSES[self.id] == STATUSES[s.id]
     
     def __ne__(self, s: Status) -> bool:
-        return str(self) != str(s)
+        return STATUSES[s.id] != STATUSES[s.id]
 
 PLANNED  = Status().from_str("planned")
 WATCHING = Status().from_str("watching")

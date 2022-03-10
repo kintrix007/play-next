@@ -3,7 +3,7 @@ from os import path
 from src.play_json import PlayNext, load_play_json
 from src.args import ParsedArgs
 from src.config import Config
-from colorama import Style, Fore
+from colorama import Style, Fore, Back
 from src.utilz import clamp_length
 from src.status_data import DROPPED, FINISHED, PLANNED, WATCHING
 
@@ -32,9 +32,9 @@ def run(parsed: ParsedArgs, config: Config) -> None:
 
 def format_header(header: str, indent: int = 1) -> str:
         return (Style.BRIGHT + Fore.BLUE
-            + " " * indent + ".-" + "-" * len(header)   + "-.\n" 
-            + " " * indent + "| " + header.capitalize() + " |\n"
-            + " " * indent + "'-" + "-" * len(header)   + "-'\n"
+            + " " * indent + ".-" + "-" * len(header)   + "-." + " " * indent + "\n" 
+            + " " * indent + "| " + header.capitalize() + " |" + " " * indent + "\n"
+            + " " * indent + "'-" + "-" * len(header)   + "-'" + " " * indent + "\n"
         + Style.RESET_ALL)
 
 def format_title(play_next: PlayNext) -> str:

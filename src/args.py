@@ -1,23 +1,22 @@
 from src.command_line_argument import CommandLineArgument, Command, Argument, ParsedArgs
 from src.arg_data import COMMANDS, ARGUMENTS, ARG_MAP, DEFAULT_COMMAND
+from itertools import chain
 
-def _expand_args(in_args: list[str]) -> list[str]:
-    result = []
+def _expand_arg(arg: str) -> list[str]:
+    if arg.startswith("--"):  return [ arg ]
+    elif arg.startswith("-"): return ["--" + ARG_MAP[letter] for letter in arg[1:]]
+    else:                     return [ arg ]
 
-    arguments_ended = False
-    for arg in in_args:
-        if arg == "--":
-            arguments_ended = True
-            result.append(arg)
-        elif arg.startswith("-") and not arg.startswith("--") and not arguments_ended:
-            # assert all([letter in ARG_MAP for letter in arg[1:]]) # * Will get a KeyError without it, so it is unneded
-            result += ["--" + ARG_MAP[letter] for letter in arg[1:]]
-        else:
-            result.append(arg)
-            
-    return result
+def _expand_args(raw_args: list[str]) -> list[str]:
+    arg_stop_idx = raw_args.index("--") if "--" in raw_args else len(raw_args)
+    parsed_args = [_expand_arg(arg) for arg in raw_args[:arg_stop_idx]]
+    # unparsed_args = raw_args[arg_stop_idx+1:]
+    unparsed_args = raw_args[arg_stop_idx:]
+    return list(chain.from_iterable(parsed_args)) + unparsed_args
 
-def parse_args(in_args: list[str]):
+#TODO rework argument parsing
+
+def parse_args(in_args: list[str]) -> ParsedArgs:
     expanded = _expand_args(in_args)
 
     command: Command | None = None

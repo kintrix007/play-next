@@ -4,7 +4,7 @@ from itertools import chain
 
 def _expand_arg(arg: str) -> list[str]:
     if arg.startswith("--"):  return [ arg ]
-    elif arg.startswith("-"): return ["--" + ARG_MAP[letter] for letter in arg[1:]]
+    elif arg.startswith("-"): return [f"--{ARG_MAP[letter]}" for letter in arg[1:]]
     else:                     return [ arg ]
 
 def _expand_args(raw_args: list[str]) -> list[str]:

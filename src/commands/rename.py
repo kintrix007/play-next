@@ -32,13 +32,21 @@ def run(parsed: ParsedArgs, config: Config) -> None:
     if len(rename_map) == 0:
         return print("All files are already named properly")
 
+    #TODO Add check if dst already exist and would overwrite
     longest_source = max(map(lambda x: len(path.basename(x)), rename_map.keys()))
     for src, dst in sorted(rename_map.items()):
         src_base = path.basename(src)
         dst_base = path.basename(dst)
         print("%-{}s -> %s".format(longest_source) % (src_base, dst_base))
+    print("\nIs this correct (Y/n)", end=" ")
+
+    has_duplicate_dst = len(rename_map.values()) != len(set(rename_map.values()))
     
-    res = input("\nIs this correct (Y/n) ").lower().strip()
+    if has_duplicate_dst:
+        print("n")
+        assert False, "Multiple files would be renamed the same!"
+    
+    res = input().lower().strip()
     if res in [ "", "y", "yes" ]:
         for src, dst in rename_map.items():
             os.rename(src, dst)

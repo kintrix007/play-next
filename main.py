@@ -28,6 +28,6 @@ if __name__ == "__main__":
         main()
     except AssertionError as e:
         msg = str(e)
-        if msg != "": print(msg)
+        if msg != "": print("---\nError:", msg)
         else:         print(repr(e))
 

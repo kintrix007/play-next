@@ -10,7 +10,6 @@ def _expand_arg(arg: str) -> list[str]:
 def _expand_args(raw_args: list[str]) -> list[str]:
     arg_stop_idx = raw_args.index("--") if "--" in raw_args else len(raw_args)
     parsed_args = [_expand_arg(arg) for arg in raw_args[:arg_stop_idx]]
-    # unparsed_args = raw_args[arg_stop_idx+1:]
     unparsed_args = raw_args[arg_stop_idx:]
     return list(chain.from_iterable(parsed_args)) + unparsed_args
 

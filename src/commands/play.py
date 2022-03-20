@@ -21,7 +21,7 @@ def run(parsed: ParsedArgs, config: Config) -> None:
         next_ep_path = next(f for f in files if os.path.basename(f).startswith(next_ep_name_start))
     except StopIteration:
         print(f"Next episode ({next_ep}) does not exist or is not named properly")
-        print(f"run {Style.BRIGHT}'play-next rename'{Style.RESET_ALL} to fix the naming of the files")
+        print(f"Execute {Style.BRIGHT}'play-next rename'{Style.RESET_ALL} to fix the naming of the files")
         return
 
     try:

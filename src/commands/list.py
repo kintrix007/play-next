@@ -43,8 +43,12 @@ def format_title(play_next: PlayNext) -> str:
         if play_next.starred else
         Style.DIM + "[ ]" + Style.RESET_ALL
     )
-    ep_progress = f"({play_next.watched}/" + ("??" if play_next.ep_count == None else f"{play_next.ep_count}") + ")"
+    ep_progress_max_len = 9
+    width, _ = os.get_terminal_size()
+    width -= 10 + ep_progress_max_len
 
-    result = starred + " " * 2 + f"{clamp_length(play_next.full_title, 50):50}"
+    ep_progress = f"({play_next.watched}/" + ("??" if play_next.ep_count == None else f"{play_next.ep_count}") + ")"
+    ep_progress = "%{}s".format(ep_progress_max_len) % ep_progress
+    result = starred + "  " + "%-{}s".format(width) % clamp_length(play_next.full_title, width) + " |"
     if play_next.status in [ WATCHING, DROPPED ]: result += " " + ep_progress
     return result

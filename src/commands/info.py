@@ -1,7 +1,7 @@
 import os
 from src.args import ParsedArgs
 from src.config import Config
-from src.play_json import load_play_json
+from src.play_json import load_play_next
 from colorama import Fore, Style
 BRIGHT = Style.BRIGHT
 NORMAL = Style.NORMAL
@@ -11,7 +11,7 @@ prefix = " "
 
 def run(parsed: ParsedArgs, config: Config) -> None:
     cwd = os.getcwd()
-    play_next = load_play_json(cwd)
+    play_next = load_play_next(cwd)
 
     title = play_next.full_title
     star_str = f"{Fore.YELLOW}[*]{Fore.RESET}" if play_next.starred else ""

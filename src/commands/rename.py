@@ -2,14 +2,14 @@ import os, re
 from os import path
 from src.args import ParsedArgs
 from src.config import Config
-from src.play_json import get_episode_files, load_play_json
+from src.play_json import get_episode_files, load_play_next
 from src.utilz import TARGET_FORMAT
 
 cmd_name = "rename"
 
 def run(parsed: ParsedArgs, config: Config) -> None:
     cwd = os.getcwd()
-    play_next = load_play_json(cwd)
+    play_next = load_play_next(cwd)
 
     files = get_episode_files(cwd)
     title = play_next.title

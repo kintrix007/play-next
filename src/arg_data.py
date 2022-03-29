@@ -20,10 +20,14 @@ COMMANDS: dict[str, int] = {
 ARGUMENTS: dict[str, int] = {
     "verbose": 0,
     "with": 1,
+    "status": 1,
+    "star": 0,
 }
 
 ARG_MAP = {
     "a": "all",
     "v": "verbose",
     "w": "with",
+    "s": "status",
+    "S": "star",
 }

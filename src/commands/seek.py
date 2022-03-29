@@ -1,13 +1,13 @@
 import os
 from src.args import ParsedArgs
 from src.config import Config
-from src.play_json import load_play_json, overwrite_play_json
+from src.play_json import load_play_next, overwrite_play_json
 
 cmd_name = "seek"
 
 def run(parsed: ParsedArgs, config: Config) -> None:
     cwd = os.getcwd()
-    play_next = load_play_json(cwd)
+    play_next = load_play_next(cwd)
     seek_ep = parsed.command.params[0]
 
     if seek_ep[0] in [ "+", "-" ]:

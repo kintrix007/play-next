@@ -8,7 +8,7 @@ from src.play_json import load_play_json_nullable, overwrite_play_json, dir_path
 from src.utilz import to_title_format
 
 config = load_config()
-all_titles = os.listdir(config.source_dir)
+all_titles = os.listdir(config.source_root)
 
 for title in all_titles:
     dir_path = dir_path_from_title(config, title)

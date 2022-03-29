@@ -1,6 +1,6 @@
 import os
 from os import path
-from src.play_json import PlayNext, load_play_json
+from src.play_json import PlayNext, load_play_next
 from src.args import ParsedArgs
 from src.config import Config
 from colorama import Style, Fore, Back
@@ -11,7 +11,7 @@ from src.status_data import DROPPED, FINISHED, PLANNED, WATCHING
 cmd_name = "list"
 
 def run(parsed: ParsedArgs, config: Config) -> None:
-    all_titles = map(lambda x: load_play_json(path.join(config.source_dir, x)), os.listdir(config.source_dir))
+    all_titles = map(lambda x: load_play_next(path.join(config.source_root, x)), os.listdir(config.source_root))
     
     statuses: dict[str, list[PlayNext]] = {}
     for play_next in all_titles:

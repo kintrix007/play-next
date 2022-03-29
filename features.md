@@ -51,10 +51,16 @@ The command line arguments are separated by whitespaces.
 
 ### Arguments
 
-- `--with`, `-w`
+- `--with <app>`, `-w`
   - only affects 'play' and 'open' mode
 - `--verbose`, `-v`
-  - only affects 'link', 'info' and 'list'
+  - only affects 'link' and 'info'
+- `--status <status>`, `-s`
+  - set the status to `status` when creating the series
+  - only affects 'create' mode
+- `--star`, `-S`
+  - star the series when creating it
+  - only affects 'create' mode
 - `--help`, `-h` - **[Not implemented]**
   - shows help sheet then terminates
 

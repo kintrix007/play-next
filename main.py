@@ -12,8 +12,8 @@ def main():
     config = load_config()
     parsed = args.parse_args(sys.argv[1:])
 
-    assert os.path.exists(config.source_dir), f"Directory '{config.source_dir}' does not exist"
-    assert os.path.exists(config.target_dir), f"Directory '{config.target_dir}' does not exist"
+    assert os.path.exists(config.source_root), f"Directory '{config.source_root}' does not exist"
+    assert os.path.exists(config.link_root), f"Directory '{config.link_root}' does not exist"
     
     modules = load_commands()
     for mod in modules:
@@ -22,7 +22,7 @@ def main():
             break
 
 if __name__ == "__main__":
-    # main(); exit() #? For debugging
+    main(); exit() #? For debugging
 
     try: 
         main()

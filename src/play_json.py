@@ -33,9 +33,9 @@ class PlayNext:
 
 def dir_path_from_title(config: Config, title: str) -> str:
     norm_title = normalize_file_name(title)
-    return path.join(config.source_dir, norm_title)
+    return path.join(config.source_root, norm_title)
 
-def prompt_create_play_json(config: Config, title: str, to_dir: str, can_overwrite=True):
+def prompt_create_play_json(config: Config, title: str, to_dir: str, can_overwrite: bool, def_starred: bool = None, def_status: Status = None):
     play_json_dir = to_dir
     play_json_path = path.join(play_json_dir, PLAY_JSON)
     # assert not (not can_overwrite and path.exists(play_json_path)), f"'{play_json_dir}' already exists!"
@@ -48,8 +48,8 @@ def prompt_create_play_json(config: Config, title: str, to_dir: str, can_overwri
         "title":       old_play_next.title       if old_play_next else title,
         "full_title":  full_title,
         "watched":     old_play_next.watched     if old_play_next else 0,
-        "status":      str(old_play_next.status) if old_play_next else str(PLANNED),
-        "starred":     old_play_next.starred     if old_play_next else False,
+        "status":      str(old_play_next.status) if old_play_next else str(def_status) if def_status else str(PLANNED),
+        "starred":     old_play_next.starred     if old_play_next else def_starred or False,
         "ep_count":    old_play_next.ep_count    if old_play_next else None,
         "website":     old_play_next.website     if old_play_next else default_website(config, full_title),
         "format":      old_play_next.format      if old_play_next else config.default_source_format,
@@ -82,7 +82,7 @@ def prompt_create_play_json(config: Config, title: str, to_dir: str, can_overwri
     
     return play_next
 
-def make_ep_symlink(source_dir_path: str, relative_ep_dir_path: str, title: str, verbose=True) -> None:
+def create_episode_dir_symlink(source_dir_path: str, relative_ep_dir_path: str, title: str, verbose=True) -> None:
     prev_dir = os.getcwd()
     os.chdir(source_dir_path)
 
@@ -104,8 +104,8 @@ def make_ep_symlink(source_dir_path: str, relative_ep_dir_path: str, title: str,
     
     os.chdir(prev_dir)
 
-def load_play_json(play_json_dir: str) -> PlayNext:
-    play_json_path = path.join(play_json_dir, PLAY_JSON)
+def load_play_next(from_play_json_dir: str) -> PlayNext:
+    play_json_path = path.join(from_play_json_dir, PLAY_JSON)
     assert path.exists(play_json_path), f"File '{play_json_path}' does not exist"
 
     with open(play_json_path, "r") as f:
@@ -114,7 +114,7 @@ def load_play_json(play_json_dir: str) -> PlayNext:
 
 def load_play_json_nullable(play_json_dir: str) -> PlayNext | None:
     try:
-        return load_play_json(play_json_dir)
+        return load_play_next(play_json_dir)
     except AssertionError:
         return None
     

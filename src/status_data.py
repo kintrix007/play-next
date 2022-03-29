@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-STATUSES = [
+STATUS_STRINGS = [
     "planned",
     "watching",
     "dropped",
@@ -13,22 +13,22 @@ class Status:
         self.id = id
     
     def __str__(self) -> str:
-        return STATUSES[self.id]
+        return STATUS_STRINGS[self.id]
     
     def from_str(self, status: str) -> Status:
         assert isinstance(status, str)
-        assert status in STATUSES, f"Status '{status}' is not a valid status"
-        self.id = STATUSES.index(status)
+        assert status in STATUS_STRINGS, f"Status '{status}' is not a valid status"
+        self.id = STATUS_STRINGS.index(status)
         return self
     
     def to_str(self) -> str:
         return str(self)
     
     def __eq__(self, s: Status) -> bool:
-        return STATUSES[self.id] == STATUSES[s.id]
+        return STATUS_STRINGS[self.id] == STATUS_STRINGS[s.id]
     
     def __ne__(self, s: Status) -> bool:
-        return STATUSES[s.id] != STATUSES[s.id]
+        return STATUS_STRINGS[s.id] != STATUS_STRINGS[s.id]
 
 PLANNED  = Status().from_str("planned")
 WATCHING = Status().from_str("watching")

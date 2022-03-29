@@ -5,8 +5,8 @@ from src.utilz import CONFIG_FILE
 class Config:
     def __init__(self, config_dict: dict[str, str]) -> None:
         self._as_dict              = config_dict.copy()
-        self.target_dir            = config_dict["target_dir"]
-        self.source_dir            = config_dict["source_dir"]
+        self.link_root             = config_dict["target_dir"]
+        self.source_root           = config_dict["source_dir"]
         self.default_episode_dir   = config_dict["default_episode_dir"]
         self.default_source_format = config_dict["default_source_format"]
         self.default_website       = config_dict["default_website"]

@@ -1,3 +1,4 @@
+from colorama import Style
 from src.play_json import dir_path_from_title, create_episode_dir_symlink, prompt_create_play_json
 from src.args import ParsedArgs
 from src.status_data import PLANNED, Status
@@ -14,14 +15,19 @@ def run(parsed: ParsedArgs, config: Config) -> None:
 
     series_path = dir_path_from_title(config, title)
 
-    play_next = prompt_create_play_json(
-        config, title, series_path, can_overwrite=False,
-        def_status=status,
-        def_starred=is_starred,
-    )
+    try:
+        play_next = prompt_create_play_json(
+            config, title, series_path, can_overwrite=False,
+            def_status=status,
+            def_starred=is_starred,
+        )
+    except KeyboardInterrupt:
+        print("\nAborted.")
+        return
+    
     create_episode_dir_symlink(series_path, play_next.episode_dir, title)
     
     link(config, series_path)
     
     starred_str = "starred " if is_starred else ""
-    print(f"Successfully added {starred_str}{status} series '{title}'")
+    print(f"\nSuccessfully added {starred_str}{status} series '{Style.BRIGHT}{play_next.full_title}{Style.RESET_ALL}'")

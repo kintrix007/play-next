@@ -44,7 +44,10 @@ def format_title(play_next: PlayNext) -> str:
         Style.DIM + "[ ]" + Style.RESET_ALL
     )
     ep_progress_max_len = 9
-    width, _ = os.get_terminal_size()
+    try:
+        width, _ = os.get_terminal_size()
+    except OSError:
+        width = 80
     width -= 10 + ep_progress_max_len
 
     ep_progress = f"({play_next.watched}/" + ("??" if play_next.ep_count == None else f"{play_next.ep_count}") + ")"

@@ -8,8 +8,7 @@ def _expand_arg(arg: str) -> list[str]:
     elif arg.startswith("-"):
         expanded_args = []
         for letter in arg[1:]:
-            hint = f"\n Did you mean '-- -{letter}'?" if letter.isdigit() else ""
-            assert letter in SHORT_ARG_MAP, f"'-{letter}' is not a valid argument{hint}"
+            assert letter in SHORT_ARG_MAP, f"'-{letter}' is not a valid argument\n Did you mean '-- {arg}'?"
             expanded_args.append(f"--{SHORT_ARG_MAP[letter]}") 
         return expanded_args
     else:

@@ -15,12 +15,11 @@ def run(parsed: ParsedArgs, config: Config) -> None:
 
     title = prev_play_next.title if prev_play_next != None else source_dir_name
     
-    play_next = prompt_create_play_json(config, title, source_dir_path, can_overwrite=False)
+    play_next = prompt_create_play_json(config, title, source_dir_path, can_overwrite=True)
 
     episode_dir_symlink_path = path.join(source_dir_path, EPISODE_SYMLINK_NAME)
     if path.islink(episode_dir_symlink_path):
         os.unlink(episode_dir_symlink_path)
     create_episode_dir_symlink(source_dir_path, play_next.episode_dir, title)
-    
     
     print(f"Successfully reinitialized '{title}'")

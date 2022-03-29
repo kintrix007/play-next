@@ -61,6 +61,8 @@ The command line arguments are separated by whitespaces.
 - `--star`, `-S`
   - star the series when creating it
   - only affects 'create' mode
+- `--yes`, `-y` - **[Not implemented]**
+  - always accepts the default option
 - `--help`, `-h` - **[Not implemented]**
   - shows help sheet then terminates
 

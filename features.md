@@ -101,13 +101,13 @@ The command line arguments are separated by whitespaces.
 ### Example commands
 
 - `play-next create komi-san-wa-comyushou-desu`
-- `play-next create overlord`
+- `play-next create overlord --status watching --starred`
 - `play-next reinit`
 - `play-next link`
 - `play-next rename`
 - `play-next` or `play-next play` or `play-next --with vlc`
 - `play-next open` or `play-next open --with firefox`
 - `play-next info`
-- `play-next info --all`
+- `play-next info --verbose`
 - `play-next status dropped`
 - `play-next star`, `play-next unstar`

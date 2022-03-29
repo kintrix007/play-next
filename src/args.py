@@ -1,70 +1,70 @@
-from src.command_line_argument import CommandLineArgument, Command, Argument, ParsedArgs
-from src.arg_data import COMMANDS, ARGUMENTS, ARG_MAP, DEFAULT_COMMAND
+from src.command_line_argument import Command, Argument, ParsedArgs
+from src.arg_data import COMMAND_PARAM_COUNTS, ARGUMENT_PARAM_COUNTS, SHORT_ARG_MAP, DEFAULT_COMMAND
 from itertools import chain
 
 def _expand_arg(arg: str) -> list[str]:
-    if arg.startswith("--"):  return [ arg ]
-    elif arg.startswith("-"): return [f"--{ARG_MAP[letter]}" for letter in arg[1:]]
-    else:                     return [ arg ]
+    if arg.startswith("--"):
+        return [ arg ]
+    elif arg.startswith("-"):
+        expanded_args = []
+        for letter in arg[1:]:
+            hint = f"\n Did you mean '-- -{letter}'?" if letter.isdigit() else ""
+            assert letter in SHORT_ARG_MAP, f"'-{letter}' is not a valid argument{hint}"
+            expanded_args.append(f"--{SHORT_ARG_MAP[letter]}") 
+        return expanded_args
+    else:
+        return [ arg ]
 
-def _expand_args(raw_args: list[str]) -> list[str]:
+def _expand_all_args(raw_args: list[str]) -> list[str]:
     arg_stop_idx = raw_args.index("--") if "--" in raw_args else len(raw_args)
     parsed_args = [_expand_arg(arg) for arg in raw_args[:arg_stop_idx]]
     unparsed_args = raw_args[arg_stop_idx:]
     return list(chain.from_iterable(parsed_args)) + unparsed_args
 
-#TODO rework argument parsing
-
 def parse_args(in_args: list[str]) -> ParsedArgs:
-    expanded = _expand_args(in_args)
+    expanded_args = _expand_all_args(in_args)
 
     command: Command | None = None
-    args:    list[Argument] = []
+    args: list[Argument] = []
+    args_ended = False
 
-    params_left = 0
-    current_cla: CommandLineArgument | None = None
-
-    def add_arg(current_cla: CommandLineArgument) -> None:
-        nonlocal command
-        nonlocal args
-        assert current_cla != None
-
-        if isinstance(current_cla, Command):
-            assert command == None, f"There can be only one command! ('{command.name}', '{current_cla.name}' were given)"
-            command = current_cla
-        elif isinstance(current_cla, Argument):
-            args.append(current_cla)
-
-    arguments_ended = False
-    for arg in expanded:
-        if arg == "--":
-            arguments_ended = True
+    command_params_left = -1
+    i = 0
+    while i < len(expanded_args):
+        elem = expanded_args[i]
+        if elem == "--":
+            args_ended = True
+            i += 1; continue
+        
+        if not args_ended and elem.startswith("--"):
+            elem = elem[2:]
+            assert elem in ARGUMENT_PARAM_COUNTS, f"'--{elem}' is not a valid argument"
+            argument = Argument(elem, [])
+            i += 1
+            for _ in range(ARGUMENT_PARAM_COUNTS[argument.name]):
+                assert i < len(expanded_args), f"Missing parameters for argument '--{argument.name}'"
+                elem = expanded_args[i]
+                argument.params.append(elem)
+                i += 1
+            args.append(argument)
             continue
-
-        params_left -= 1
-        if params_left >= 0: # still need to add params
-            assert current_cla != None
-            current_cla.params.append(arg)
-        if params_left == 0: # params all in
-            assert current_cla != None
-            add_arg(current_cla)
-            current_cla = None
-        elif params_left < 0 and not arguments_ended:
-            assert current_cla == None
-            if arg.startswith("--"):
-                arg = arg[2:]
-                assert arg in ARGUMENTS, f"'--{arg}' is not a valid argument"
-                params_left = ARGUMENTS[arg]
-                current_cla = Argument(arg, [])
+        else:
+            if command == None:
+                assert elem in COMMAND_PARAM_COUNTS, f"'{elem}' is not a valid sub-command"
+                command = Command(elem, [])
+                command_params_left = COMMAND_PARAM_COUNTS[command.name]
             else:
-                assert arg in COMMANDS, f"'{arg}' is not a valid command"
-                params_left = COMMANDS[arg]
-                current_cla = Command(arg, [])
-            
-            if params_left == 0:
-                add_arg(current_cla)
-                current_cla = None
+                assert command_params_left != -1, "Uhhhhh... This should never happen..."
+                assert command_params_left > 0, f"Did not expect any more arguments: '{elem}'"
+                command.params.append(elem)
+                command_params_left -= 1
+
+        i += 1
     
-    assert current_cla == None and params_left <= 0, f"Missing parameters for '{current_cla.name}'"
+    if command_params_left == -1:
+        assert command == None, f"Ran into a problem defaulting to sub-command '{DEFAULT_COMMAND.name}'"
+    else:
+        assert command_params_left == 0, f"Missing parameters for sub-command '{command.name}'"
 
     return ParsedArgs(command or DEFAULT_COMMAND, args)
+

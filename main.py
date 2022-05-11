@@ -14,7 +14,7 @@ def main():
 
     assert os.path.exists(config.source_root), f"Directory '{config.source_root}' does not exist"
     assert os.path.exists(config.link_root), f"Directory '{config.link_root}' does not exist"
-    
+
     modules = load_commands()
     for mod in modules:
         if mod.cmd_name == parsed.command.name:
@@ -22,12 +22,14 @@ def main():
             break
 
 if __name__ == "__main__":
+    # TODO Change to custom errors becuase assertions are simply ignored in optiimsed mode
+    # * Failing assertions should also explicitly return or throw an error
+
     # main(); exit() #? For debugging
 
-    try: 
+    try:
         main()
     except AssertionError as e:
         msg = str(e)
         if msg != "": print("---\nError:", msg)
         else:         print(repr(e))
-

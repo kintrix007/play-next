@@ -8,7 +8,10 @@ from src.link_utilz import link
 cmd_name = "create"
 
 def run(parsed: ParsedArgs, config: Config) -> None:
-    title = parsed.command.params[0]
+    title = parsed.command.params[0].strip()
+
+    assert not title.startswith("."), "The title must not start with a '.' (dot) character!"
+
     does_set_status = parsed.get_arg("status")
     status = Status().from_str(does_set_status.params[0]) if does_set_status else PLANNED
     is_starred = parsed.get_arg("star") != None

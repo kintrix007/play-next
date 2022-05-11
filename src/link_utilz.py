@@ -1,12 +1,12 @@
 import os
 from os import path
-from src.play_json import PlayNext, load_play_next
+from src.play_json import PlayNext, get_series_dirs, load_play_next
 from src.status_data import STATUS_STRINGS
 from src.config import Config
 
 
 def _reset_target_link_dirs(config: Config) -> None:
-    all_dirs = _get_all_dirs(config)
+    all_dirs = _get_all_target_dirs(config)
     for dir in all_dirs:
         if os.path.exists(dir):
             # remove symlink
@@ -16,11 +16,11 @@ def _reset_target_link_dirs(config: Config) -> None:
             os.makedirs(dir)
 
 
-def _get_starred_dir(config: Config) -> str:
+def _get_starred_target_dir(config: Config) -> str:
     return path.join(config.link_root, "starred")
 
-def _get_all_dirs(config: Config) -> list[str]:
-    starred_dir = _get_starred_dir(config)
+def _get_all_target_dirs(config: Config) -> list[str]:
+    starred_dir = _get_starred_target_dir(config)
     return [ path.join(config.link_root, x) for x in STATUS_STRINGS ] + [ starred_dir ]
 
 _last_link_root = None
@@ -39,21 +39,23 @@ def _get_link_target_path(config: Config, play_next: PlayNext) -> str:
 
 
 def link(config: Config, series_path: str) -> None:
+    # ! Quickly hacked it here, not sure if it's enough to make it work
+    filename = path.basename(series_path)
+    if filename.startswith("."): return
+
     play_next = load_play_next(series_path)
     link_target = _get_link_target_path(config, play_next)
 
     os.symlink(series_path, link_target)
     
     if play_next.starred:
-        starred_dir = _get_starred_dir(config)
+        starred_dir = _get_starred_target_dir(config)
         target_path = path.join(starred_dir, play_next.title)
         os.symlink(series_path, target_path)
 
 def relink_all(config: Config) -> None:
     _reset_target_link_dirs(config)
 
-    source_root = config.source_root
-
-    all_series_paths = [ p for f in os.listdir(source_root) if path.isdir(p := path.join(source_root, f)) ]
+    all_series_paths = get_series_dirs(config, True)
     for series_path in all_series_paths:
         link(config, series_path)

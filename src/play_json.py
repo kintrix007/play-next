@@ -67,8 +67,8 @@ def prompt_create_play_json(config: Config, title: str, to_dir: str, can_overwri
 
     prompt("full_title")
     prompt("ep_count", int, ValueError, nullable=True)
-    prompt("website")
-    prompt("format")
+    # prompt("website")
+    # prompt("format")
     prompt("episode_dir")
 
     play_next = PlayNext(play_json)
@@ -133,3 +133,10 @@ def get_episode_files(cwd: str) -> list[str]:
         else []
     )
     return inter_files + exter_files
+
+def get_series_dirs(config: Config, full_path: bool) -> list[str]:
+    paths = [p for f in os.listdir(config.source_root) if not f.startswith(".") and path.isdir(p := path.join(config.source_root, f))]
+    if full_path: return paths
+
+    titles = [path.basename(p) for p in paths]
+    return titles

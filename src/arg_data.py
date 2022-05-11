@@ -2,7 +2,7 @@ from src.command_line_argument import Command
 
 DEFAULT_COMMAND = Command("play", [])
 
-COMMAND_PARAM_COUNTS: dict[str, int] = {
+COMMAND_PARAM_COUNTS = {
     "create": 1,
     "info": 0,
     "link": 0,
@@ -17,17 +17,33 @@ COMMAND_PARAM_COUNTS: dict[str, int] = {
     "unstar": 0,
 }
 
-ARGUMENT_PARAM_COUNTS: dict[str, int] = {
+ALWAYS_POSSIBLE_ARGUMENTS = [ "help" ]
+
+COMMAND_POSSIBLE_ARGUMENTS = {
+    "create": [ "star", "status", "verbose" ],
+    "info": [ "verbose" ],
+    "link": [ "verbose" ],
+    "list": [ "pretty" ],
+    "open": [ "with" ],
+    "play": [ "with" ],
+    "reinit": [],
+    "rename": [],
+    "seek": [],
+    "star": [],
+    "status": [],
+    "unstar": [],
+}
+
+ARGUMENT_PARAM_COUNTS = {
+    "star": 0,
+    "status": 1,
     "verbose": 0,
     "with": 1,
-    "status": 1,
-    "star": 0,
 }
 
 SHORT_ARG_MAP = {
-    "a": "all",
+    "S": "star",
+    "s": "status",
     "v": "verbose",
     "w": "with",
-    "s": "status",
-    "S": "star",
 }

@@ -43,6 +43,7 @@ The command line arguments are separated by whitespaces.
   - default value: `^(?:[^\d]*\d+){0}[^\d]*0*(?P<ep>\d+).*\.(?P<ext>[\w\d]+)$`
 - target_dir: `AbsoluteFilePath`
 - source_dir: `AbsoluteFilePath`
+  - Ignore all subdirectories that start with a `.`
 - default_episode_dir: `UnresolvedFilePath`
   - Looks at `default_episode_dir`, `.`, and their subdirectories for a directory matching the title of the series,
     and takes the episodes from there
@@ -54,7 +55,7 @@ The command line arguments are separated by whitespaces.
 - `--with <app>`, `-w`
   - only affects 'play' and 'open' mode
 - `--verbose`, `-v`
-  - only affects 'link' and 'info'
+  - only affects 'create', 'link' and 'info'
 - `--status <status>`, `-s`
   - set the status to `status` when creating the series
   - only affects 'create' mode
@@ -63,6 +64,9 @@ The command line arguments are separated by whitespaces.
   - only affects 'create' mode
 - `--yes`, `-y` - **[Not implemented]**
   - always accepts the default option
+- `--pretty`, `-p` - **[Not implemented]**
+  - formats the output for human-readability
+  - only affects 'list' mode
 - `--help`, `-h` - **[Not implemented]**
   - shows help sheet then terminates
 

@@ -7,7 +7,7 @@ PLAY_JSON = ".play.json"
 CONFIG_FILE = ".play-next.config"
 EPISODE_SYMLINK_NAME = "episodes"
 DEFAULT_BROWSER = "xdg-open"
-DEFAULT_PLAYER = "vlc"
+DEFAULT_PLAYER = "xdg-open"
 TARGET_FORMAT = "{title}-{ep:02d}.{ext}"
 
 def normalize_file_name(title: str) -> str:

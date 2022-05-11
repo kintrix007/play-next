@@ -34,8 +34,15 @@ The command line arguments are separated by whitespaces.
 - website: `String?`
 - format: `RegEx` - The format of the downloaded episodes
 - status: `enum Status`
-- starred: `Boolean`
+- starred: `Boolean` - **[Deprecated]**
 - episode_dir: `UnresolvedFilePath?`
+
+### Files which may or may not exist
+
+**[Not implemented]**
+
+- `starred` - if exists, the series is starred
+- `seasonal` - if exists, the series is seasonal
 
 ### Contents of `.play-next.config`
 
@@ -111,8 +118,8 @@ The command line arguments are separated by whitespaces.
 - `play-next reinit`
 - `play-next link`
 - `play-next rename`
-- `play-next` or `play-next play` or `play-next --with vlc`
-- `play-next open` or `play-next open --with firefox`
+- `play-next` or `play-next play` or `play-next --with vlc` or `play-next play --with vlc`
+- `play-next open` or `play-next open --with xdg-open` or `play-next open --with firefox`
 - `play-next info`
 - `play-next info --verbose`
 - `play-next status dropped`

@@ -7,8 +7,8 @@
 
 The command line arguments are separated by whitespaces.
 
-- A string of letters prefixed with two dashes (e.g `--version`)
-- Single letter arguments prefixed with a single dash (e.g `-V`)
+- A string of letters prefixed with two dashes (e.g `--help`)
+- Single letter arguments prefixed with a single dash (e.g `-h`)
 - Stacking single letter arguments (e.g `-fs`) \
   is interpreted the same as typing `-f -s`
 - Marking the end of command line arguments explicitly with two dashes. (e.g `--`)
@@ -34,15 +34,13 @@ The command line arguments are separated by whitespaces.
 - website: `String?`
 - format: `RegEx` - The format of the downloaded episodes
 - status: `enum Status`
-- starred: `Boolean` - **[Deprecated]**
-- episode_dir: `UnresolvedFilePath?`
+- vid_source: `DirectoryPath?`
 
-### Files which may or may not exist
+### Files that may or may not exist
 
-**[Not implemented]**
-
-- `starred` - if exists, the series is starred
-- `seasonal` - if exists, the series is seasonal
+- `starred` - if exists, the series is starred, otherwise not
+- `seasonal` - if exists, the series is seasonal, otherwise not
+- `local` - if exists, do not link to target dir, otherwise do
 
 ### Contents of `.play-next.config`
 
@@ -51,65 +49,66 @@ The command line arguments are separated by whitespaces.
 - target_dir: `AbsoluteFilePath`
 - source_dir: `AbsoluteFilePath`
   - Ignore all subdirectories that start with a `.`
-- default_episode_dir: `UnresolvedFilePath`
-  - Looks at `default_episode_dir`, `.`, and their subdirectories for a directory matching the title of the series,
-    and takes the episodes from there
-- default_website: `StringTemplate`
-  - `{title}` will be replaced with the `title` of the series
+- default_vid_source: `DirectoryPath`
+  - Looks at `default_episode_dir` and `.` for video files matching the name format
+  - If not found, looks if `$PLAY_NEXT_EP_MASTER_DIR` has a subdirectory named the same as the title of the series
+  - If found, looks for video files matching the name format
+- website_template: `StringTemplate`
+  - `{title}` will be replaced with the `full_title` of the series
 
-### Arguments
-
-- `--with <app>`, `-w`
-  - only affects 'play' and 'open' mode
-- `--verbose`, `-v`
-  - only affects 'create', 'link' and 'info'
-- `--status <status>`, `-s`
-  - set the status to `status` when creating the series
-  - only affects 'create' mode
-- `--star`, `-S`
-  - star the series when creating it
-  - only affects 'create' mode
-- `--yes`, `-y` - **[Not implemented]**
-  - always accepts the default option
-- `--pretty`, `-p` - **[Not implemented]**
-  - formats the output for human-readability
-  - only affects 'list' mode
-- `--help`, `-h` - **[Not implemented]**
-  - shows help sheet then terminates
+---
 
 ### Commands
 
-- `config` - can be used for reconfig, should update everything accordingly - **[Not implemented]**
-- `list` - Shows a full list of series in categories
-- `create <title>`
-  - full title
-  - ep count
-  - website
-  - original file format
-  - episode dir
-- `reinit`
-  - same fields as `create`
+`--help`, `-h` is a valid flag for all commands
+
+- `play` - *default command*
+  - possible flags:
+    - `--with <app>`, `-w <app>`
+    - `--quiet`, `-q`
+    
 - `open`
-  - open series website
+  - possible flags:
+    `--with <app>`, `-w <app>`
+    - `--quiet`, `-q`
+    
+- `create <title>`
+  - description
+  - possible flags:
+    - `--status <status>`, `-s <status>`
+    - `--star`, `--fav`, `-f`
+    - `--yes`, `-y`
+
+- `reinit`
+  - description
+  - possible flags:
+    - `--status <status>`, `-s <status>`
+    - `--star`, `--fav`, `-f`
+    - `--unstar`, `--unfav`, `-u`
+    - `--yes`, `-y`
+
 - `status <new status>`
-  - sets the status to `new status`. Possible values are:
-    - **planned** - *default*
-    - **watching** - *automatically gets set after playing an episode, and the series is not finished already*
-    - **dropped**
-    - **finished** - *automatically gets set after watching **last** ep*
+  - possible flags:
+    - `--verbose`, `-v`
+
+- `list`
+  - possible flags:
+    - `--pretty`, `-p`
+
 - `link`
-  - remake, update the symlinks
+  - possible flags:
+    - `--verbose`, `-v`
+    
 - `rename`
-  - make the filenames of the episodes match the convention
+  - possible flags:
+    `--yes`, `-y`
+
 - `star`
-  - star a series
-- `unstar`
-  - unstar a series
-- `info`
-- `seek <ep>`
-  - sets the last watched episode so that the next one will be `ep`
-  - if `ep` is prefixed with either `+` or `-`, then it will seek that many episodes forward or backwards respectively. 
-- `play` - *default*
+  - possible flags:
+    `--verbose`, `-v`
+    `--delete`, `-d`
+
+---
 
 ### Example commands
 

@@ -3,47 +3,51 @@ from src.command_line_argument import Command
 DEFAULT_COMMAND = Command("play", [])
 
 COMMAND_PARAM_COUNTS = {
-    "create": 1,
-    "info": 0,
-    "link": 0,
-    "list": 0,
-    "open": 0,
     "play": 0,
+    "open": 0,
+    "create": 1,
     "reinit": 0,
-    "rename": 0,
-    "seek": 1,
-    "star": 0,
     "status": 1,
-    "unstar": 0,
+    "info": 0,
+    "list": 0,
+    "link": 0,
+    "rename": 0,
+    "star": 0,
+    "seek": 1,
 }
 
 ALWAYS_POSSIBLE_ARGUMENTS = [ "help" ]
 
 COMMAND_POSSIBLE_ARGUMENTS = {
-    "create": [ "star", "status", "verbose" ],
-    "info": [ "verbose" ],
-    "link": [ "verbose" ],
-    "list": [ "pretty" ],
-    "open": [ "with" ],
-    "play": [ "with" ],
-    "reinit": [],
-    "rename": [],
-    "seek": [],
-    "star": [],
-    "status": [],
-    "unstar": [],
+    "play":   [ "quiet", "with" ],
+    "open":   [ "quiet", "with" ],
+    "create": [ "status", "star", "yes" ],
+    "reinit": [ "status", "star", "unstar", "yes" ],
+    "status": [ "verbose" ],
+    "info":   [ "verbose" ],
+    "list":   [ "pretty" ],
+    "link":   [ "verbose" ],
+    "rename": [ "yes" ],
+    "star":   [ "verbose", "delete" ],
+    "seek":   [ "verbose" ],
 }
 
 ARGUMENT_PARAM_COUNTS = {
-    "star": 0,
-    "status": 1,
-    "verbose": 0,
-    "with": 1,
+    "star": 0,      # --star
+    "delete": 0,    # --delete
+    "status": 1,    # --status
+    "verbose": 0,   # --verbose
+    "with": 1,      # --with
+    "quiet": 0,     # --quiet
+    "yes": 0,       # --yes
 }
 
 SHORT_ARG_MAP = {
-    "S": "star",
-    "s": "status",
+    "s": "star",
+    "u": "unstar",
+    "t": "status",
     "v": "verbose",
     "w": "with",
+    "q": "quiet",
+    "y": "yes",
 }

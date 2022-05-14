@@ -67,7 +67,7 @@ def prompt_create_play_json(config: Config, title: str, to_dir: str, can_overwri
 
     prompt("full_title")
     prompt("ep_count", int, ValueError, nullable=True)
-    # prompt("website")
+    prompt("website")
     # prompt("format")
     prompt("episode_dir")
 

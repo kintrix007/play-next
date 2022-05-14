@@ -35,12 +35,9 @@ The command line arguments are separated by whitespaces.
 - format: `RegEx` - The format of the downloaded episodes
 - status: `enum Status`
 - vid_source: `DirectoryPath?`
-
-### Files that may or may not exist
-
-- `starred` - if exists, the series is starred, otherwise not
-- `seasonal` - if exists, the series is seasonal, otherwise not
-- `local` - if exists, do not link to target dir, otherwise do
+- starred: `Boolean?`
+- seasonal: `Boolean?`
+- local: `Boolean?`
 
 ### Contents of `.play-next.config`
 
@@ -75,19 +72,23 @@ The command line arguments are separated by whitespaces.
 - `create <title>`
   - description
   - possible flags:
-    - `--status <status>`, `-s <status>`
-    - `--star`, `--fav`, `-f`
+    - `--status <status>`, `-t <status>`
+    - `--star`, `-s`
     - `--yes`, `-y`
 
 - `reinit`
   - description
   - possible flags:
-    - `--status <status>`, `-s <status>`
-    - `--star`, `--fav`, `-f`
-    - `--unstar`, `--unfav`, `-u`
+    - `--status <status>`, `-t <status>`
+    - `--star`, `-s`
+    - `--unstar`, `-u`
     - `--yes`, `-y`
 
 - `status <new status>`
+  - possible flags:
+    - `--verbose`, `-v`
+
+- `info`
   - possible flags:
     - `--verbose`, `-v`
 
@@ -101,12 +102,16 @@ The command line arguments are separated by whitespaces.
     
 - `rename`
   - possible flags:
-    `--yes`, `-y`
+    - `--yes`, `-y`
 
 - `star`
   - possible flags:
-    `--verbose`, `-v`
-    `--delete`, `-d`
+    - `--verbose`, `-v`
+    - `--delete`, `-d`
+
+- `seek`
+  - possible arguments:
+    - `--verbose`, `-v`
 
 ---
 

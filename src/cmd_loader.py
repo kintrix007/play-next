@@ -14,6 +14,7 @@ class CmdTemplate:
 def load_commands() -> list[CmdTemplate]:
     commands: list[CmdTemplate] = []
     for module_name in COMMAND_PARAM_COUNTS.keys():
+        if module_name not in [ "info", "open", "play", "rename" ]: continue
         cmd: CmdTemplate = import_module(f"{COMMAND_ROOT}.{module_name}")
 
         if not isinstance(cmd.cmd_name, str):

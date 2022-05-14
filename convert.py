@@ -4,7 +4,7 @@
 
 import os
 from src.config import default_website, load_config
-from src.play_json import get_episode_files, load_play_json_nullable, overwrite_play_json, dir_path_from_title
+from play_next_obj import get_episode_files, load_play_json_nullable, overwrite_play_json, dir_path_from_title
 from src.utilz import to_title_format
 
 config = load_config()

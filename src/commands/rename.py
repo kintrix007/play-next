@@ -1,19 +1,20 @@
 import os, re
 from os import path
+from src.play_next import PlayNext
 from src.args import ParsedArgs
 from src.config import Config
-from src.play_next_obj import get_episode_files, load_play_next
 from src.utilz import TARGET_FORMAT
 
 cmd_name = "rename"
 
 def run(parsed: ParsedArgs, config: Config) -> None:
-    cwd = os.getcwd()
-    play_next = load_play_next(cwd)
+    play_next = PlayNext.create_from_cwd(config)
+    obj = play_next.load()
 
-    files = get_episode_files(cwd)
-    title = play_next.title
-    pattern = re.compile(play_next.format)
+    files = play_next.get_episode_files()
+    print(files)
+    title = obj.title
+    pattern = re.compile(obj.format)
 
     matches = {
         filepath: (match.groups(), { k: try_parse_int(v) for k, v in match.groupdict().items() })

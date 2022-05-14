@@ -1,8 +1,7 @@
-import os
+from colorama import Fore, Style
+from src.play_next import PlayNext
 from src.args import ParsedArgs
 from src.config import Config
-from src.play_next_obj import load_play_next
-from colorama import Fore, Style
 BRIGHT = Style.BRIGHT
 NORMAL = Style.NORMAL
 
@@ -10,16 +9,16 @@ cmd_name = "info"
 prefix = " "
 
 def run(parsed: ParsedArgs, config: Config) -> None:
-    cwd = os.getcwd()
-    play_next = load_play_next(cwd)
+    play_next = PlayNext.create_from_cwd(config)
+    obj = play_next.load()
 
-    title = play_next.full_title
-    star_str = f"{Fore.YELLOW}[*]{Fore.RESET}" if play_next.starred else ""
-    status = str(play_next.status).capitalize()
-    watched = play_next.watched
-    ep_count = play_next.ep_count
-    episode_dir = play_next.episode_dir
-    website = play_next.website
+    title = obj.full_title
+    star_str = f"{Fore.YELLOW}[*]{Fore.RESET}" if obj.starred else ""
+    status = str(obj.status).capitalize()
+    watched = obj.watched
+    ep_count = obj.ep_count
+    episode_dir = obj.episode_dir
+    website = obj.website
 
     print(f"{prefix}{BRIGHT}{title}{NORMAL} [{status}] {BRIGHT}{star_str}")
     if ep_count == None:

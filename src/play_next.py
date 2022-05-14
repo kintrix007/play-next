@@ -1,10 +1,13 @@
-import json
+from __future__ import annotations
+from typing import TYPE_CHECKING
 import os
 from os import path
-from src.play_next_obj import PlayNextObj
+from src.play_next_obj import dump_play_json, load_play_json
 from src.config import Config
-from src.utilz import PLAY_JSON
 from src.status_data import STATUS_STRINGS
+from src.utilz import PLAY_JSON, flatten
+if TYPE_CHECKING:
+    from src.play_next_obj import PlayNextObj
 
 
 class PlayNext:
@@ -12,19 +15,24 @@ class PlayNext:
         self.config = config
         self.title = title
     
-    def read(self) -> PlayNextObj:
+    @staticmethod
+    def create_from_cwd(config: Config) -> PlayNext:
+        title = path.basename(os.getcwd())
+        return PlayNext(config, title)
+
+    def load(self) -> PlayNextObj:
         return load_play_json(self.config, self.title)
     
-    def write(self, obj: PlayNextObj) -> None:
+    def dump(self, obj: PlayNextObj) -> None:
         dump_play_json(self.config, self.title, obj)
     
     def relink(self, obj=None) -> None:
-        obj: PlayNextObj = obj or self.read()
+        obj: PlayNextObj = obj or self.load()
         self.unlink(obj)
         self.link(obj)
 
     def link(self, obj=None) -> None:
-        obj: PlayNextObj = obj or self.read()
+        obj: PlayNextObj = obj or self.load()
         if self.is_linked() == True:
             return
         
@@ -33,7 +41,7 @@ class PlayNext:
             os.symlink(self.get_full_path(), target, target_is_directory=True)
 
     def unlink(self, obj=None) -> None:
-        obj: PlayNextObj = obj or self.read()
+        obj: PlayNextObj = obj or self.load()
         if self.is_linked(obj) == False:
             return
         
@@ -44,7 +52,7 @@ class PlayNext:
     # * None means partially linked. This means
     # * that some symlinks exist, some don't 
     def is_linked(self, obj=None) -> bool | None:
-        obj: PlayNextObj = obj or self.read()
+        obj: PlayNextObj = obj or self.load()
 
         all_targets = self._get_link_targets(self.config, obj)
         full_path = self.get_full_path()
@@ -68,9 +76,29 @@ class PlayNext:
     def get_full_path(self) -> str:
         return path.join(self.config.source_root, self.title)
 
+    def get_episode_files(self, obj=None) -> list[str]:
+        obj: PlayNextObj = obj or self.load()
+
+        cwd = os.getcwd()
+        os.chdir(self.get_full_path())
+
+        self_dir_path = path.abspath(".")
+        obj_dir_path = path.abspath(path.expanduser(path.expandvars(obj.episode_dir)))
+        _master_dir = os.environ.get("PLAY_NEXT_EP_MASTER_DIR")
+        master_dir_path = None if _master_dir == None else path.abspath(_master_dir)
+        
+        os.chdir(cwd)
+        
+        self_dir_files = [path.join(self_dir_path, f) for f in os.listdir(self_dir_path) if f != PLAY_JSON]
+        obj_dir_files = [path.join(obj_dir_path, f) for f in os.listdir(obj_dir_path) if f != PLAY_JSON]
+        master_dir_files = [path.join(master_dir_path, obj.title, f) for f in os.listdir(path.join(master_dir_path, obj.title)) if f != PLAY_JSON]
+
+        return [ *self_dir_files, *obj_dir_files, *master_dir_files ]
+
+
 
     def _get_link_targets(self, obj=None) -> list[str]:
-        obj: PlayNextObj = obj or self.read()
+        obj: PlayNextObj = obj or self.load()
 
         if obj.local: return []
 
@@ -86,43 +114,3 @@ class PlayNext:
             all_targets.append(path.join(link_root, "starred"))
         if obj.seasonal:
             all_targets.append(path.join(link_root, "seasonal"))
-        
-
-
-def load_play_json(config: Config, title: str) -> PlayNextObj:
-    return _load_play_json_from_path(path.join(config.source_root, title))
-
-def load_play_json_nullable(config: Config, title: str) -> PlayNextObj | None:
-    try:
-        return load_play_json(config, title)
-    except FileNotFoundError:
-        return None
-
-def dump_play_json(config: Config, title: str, new_obj: PlayNextObj) -> None:
-    play_json_path = path.join(config.source_root, title, PLAY_JSON)
-
-    with open(play_json_path, "w") as f:
-        json.dump(new_obj.to_dict(), f, indent=2, sort_keys=True)
-        
-
-def get_series_titles(config: Config) -> list[str]:
-    all_paths = [p for f in os.listdir(config.source_root) if not f.startswith(".") and path.isdir(p := path.join(config.source_root, f))]
-    all_titles = [_load_play_json_from_path(p).title for p in all_paths]
-    for i in range(len(all_paths)):
-        parent_dir, dirname = path.split(all_paths[i])
-        title = all_titles[i]
-        if dirname != title:
-            raise FileNotFoundError(f"'{path.join(parent_dir, dirname)}' is named incorrectly.\nIt should be '{path.join(parent_dir, title)}'")
-
-    return all_titles
-
-
-def _load_play_json_from_path(dir_path: str) -> PlayNextObj:
-    play_json_path = path.join(dir_path, PLAY_JSON)
-    if not path.exists(play_json_path):
-        raise FileNotFoundError(f"File '{play_json_path}' does not exist")
-
-    with open(play_json_path, "r") as f:
-        play_json_dict = json.load(f)
-    
-    return PlayNextObj(play_json_dict) 

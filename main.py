@@ -13,7 +13,7 @@ def main():
     
     parsed = args.parse_args(sys.argv[1:])
     config = load_config()
-    print(os.environ.get("PLAY_NEXT_EP_MASTER_DIR"))
+    # print(os.environ.get("PLAY_NEXT_EP_MASTER_DIR"))
 
     if not os.path.exists(config.source_root):
         raise FileNotFoundError(f"Directory '{config.source_root}' does not exist")

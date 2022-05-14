@@ -34,7 +34,7 @@ The command line arguments are separated by whitespaces.
 - website: `String?`
 - format: `RegEx` - The format of the downloaded episodes
 - status: `enum Status`
-- vid_source: `DirectoryPath?`
+- episode_dir: `DirectoryPath?`
 - starred: `Boolean?`
 - seasonal: `Boolean?`
 - local: `Boolean?`

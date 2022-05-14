@@ -25,7 +25,7 @@ DEFAULTS: dict[str, str] = {
 
 def prompt_create_config() -> None:
     print("First time configuration needed. By pressing enter you accept the default.\n")
-    
+
     config = DEFAULTS.copy()
     for k, v in config.items():
         res = input(f"{k}: ({v}) ")

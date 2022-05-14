@@ -1,5 +1,5 @@
 from colorama import Style
-from src.play_json import dir_path_from_title, create_episode_dir_symlink, prompt_create_play_json
+from src.play_next_obj import dir_path_from_title, create_episode_dir_symlink, prompt_create_play_json
 from src.args import ParsedArgs
 from src.status_data import PLANNED, Status
 from src.config import Config

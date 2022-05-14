@@ -1,7 +1,7 @@
 import os
 from src.args import ParsedArgs
 from src.config import Config
-from src.play_json import load_play_next
+from src.play_next_obj import load_play_next
 from colorama import Fore, Style
 BRIGHT = Style.BRIGHT
 NORMAL = Style.NORMAL

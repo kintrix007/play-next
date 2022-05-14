@@ -2,7 +2,7 @@ import os, re
 from os import path
 from src.args import ParsedArgs
 from src.config import Config
-from src.play_json import get_episode_files, load_play_next
+from src.play_next_obj import get_episode_files, load_play_next
 from src.utilz import TARGET_FORMAT
 
 cmd_name = "rename"

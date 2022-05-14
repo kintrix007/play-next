@@ -1,7 +1,7 @@
 import os
 from src.args import ParsedArgs
 from src.config import Config
-from src.play_json import get_episode_files, load_play_next, overwrite_play_json
+from src.play_next_obj import get_episode_files, load_play_next, overwrite_play_json
 from src.status_data import DROPPED, FINISHED, PLANNED, WATCHING
 from src.utilz import DEFAULT_PLAYER, TARGET_FORMAT
 from colorama import Style

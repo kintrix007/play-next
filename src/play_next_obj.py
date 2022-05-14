@@ -4,7 +4,7 @@ from src.utilz import EPISODE_SYMLINK_NAME, PLAY_JSON, is_same_path, normalize_f
 from src.config import Config, default_website
 from src.status_data import PLANNED, Status
 
-class PlayNext:
+class PlayNextObj:
     def __init__(self, play_json: dict) -> None:
         self.title       : str        = play_json["title"]
         # self.full_title  : str | None = None if "full_title" not in play_json else play_json["full_title"] #! Don't allow for `None` anymore
@@ -71,7 +71,7 @@ def prompt_create_play_json(config: Config, title: str, to_dir: str, can_overwri
     # prompt("format")
     prompt("episode_dir")
 
-    play_next = PlayNext(play_json)
+    play_next = PlayNextObj(play_json)
     
     if not path.exists(play_json_dir):
         os.mkdir(play_json_dir)
@@ -103,40 +103,3 @@ def create_episode_dir_symlink(source_dir_path: str, relative_ep_dir_path: str, 
             os.symlink(sub_ep_dir_path, os.path.join(source_dir_path, EPISODE_SYMLINK_NAME))
     
     os.chdir(prev_dir)
-
-def load_play_next(from_play_json_dir: str) -> PlayNext:
-    play_json_path = path.join(from_play_json_dir, PLAY_JSON)
-    assert path.exists(play_json_path), f"File '{play_json_path}' does not exist"
-
-    with open(play_json_path, "r") as f:
-        play_json_dict = json.load(f)
-    return PlayNext(play_json_dict)
-
-def load_play_json_nullable(play_json_dir: str) -> PlayNext | None:
-    try:
-        return load_play_next(play_json_dir)
-    except AssertionError:
-        return None
-    
-
-def overwrite_play_json(play_json_dir: str, new_play_next: PlayNext) -> None:
-    play_json_path = path.join(play_json_dir, PLAY_JSON)
-    with open(play_json_path, "w") as f:
-        json.dump(new_play_next.to_dict(), f, indent=2, sort_keys=True)
-
-def get_episode_files(cwd: str) -> list[str]:
-    inter_files = [path.join(cwd, f) for f in os.listdir(cwd)]
-    exter_files_path = path.join(cwd, EPISODE_SYMLINK_NAME)
-    exter_files = (
-        [path.join(exter_files_path, f) for f in os.listdir(exter_files_path)]
-        if path.exists(exter_files_path)
-        else []
-    )
-    return inter_files + exter_files
-
-def get_series_dirs(config: Config, full_path: bool) -> list[str]:
-    paths = [p for f in os.listdir(config.source_root) if not f.startswith(".") and path.isdir(p := path.join(config.source_root, f))]
-    if full_path: return paths
-
-    titles = [path.basename(p) for p in paths]
-    return titles

@@ -1,6 +1,6 @@
 import os
 from os import path
-from src.play_json import PlayNext, get_series_dirs, load_play_next
+from src.play_next_obj import PlayNextObj, get_series_dirs, load_play_next
 from src.status_data import STATUS_STRINGS
 from src.config import Config
 
@@ -25,7 +25,7 @@ def _get_all_target_dirs(config: Config) -> list[str]:
 
 _last_link_root = None
 _status_path_map = {}
-def _get_link_target_path(config: Config, play_next: PlayNext) -> str:
+def _get_link_target_path(config: Config, play_next: PlayNextObj) -> str:
     global _status_path_map, _last_link_root
 
     link_root = config.link_root

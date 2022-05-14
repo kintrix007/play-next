@@ -1,6 +1,6 @@
 import os
 from os import path
-from src.play_json import PlayNext, get_series_dirs, load_play_next
+from src.play_next_obj import PlayNextObj, get_series_dirs, load_play_next
 from src.args import ParsedArgs
 from src.config import Config
 from colorama import Style, Fore, Back
@@ -15,7 +15,7 @@ def run(parsed: ParsedArgs, config: Config) -> None:
     # ! Do not allow ones starting with a dot
     all_titles = map(load_play_next, get_series_dirs(config, True))
     
-    statuses: dict[str, list[PlayNext]] = {}
+    statuses: dict[str, list[PlayNextObj]] = {}
     for play_next in all_titles:
         if play_next.status.to_str() not in statuses: statuses[play_next.status.to_str()] = []
         statuses[play_next.status.to_str()].append(play_next)
@@ -39,7 +39,7 @@ def format_header(header: str, indent: int = 1) -> str:
             + " " * indent + "'-" + "-" * len(header)   + "-'" + " " * indent + "\n"
         + Style.RESET_ALL)
 
-def format_title(play_next: PlayNext) -> str:
+def format_title(play_next: PlayNextObj) -> str:
     starred = (
         Style.BRIGHT + Fore.YELLOW + "[*]" + Style.RESET_ALL
         if play_next.starred else

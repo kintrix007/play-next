@@ -2,7 +2,7 @@ import os
 from os import path
 from src.args import ParsedArgs
 from src.config import Config
-from src.play_json import load_play_json_nullable, create_episode_dir_symlink, prompt_create_play_json
+from src.play_next_obj import load_play_json_nullable, create_episode_dir_symlink, prompt_create_play_json
 from src.utilz import EPISODE_SYMLINK_NAME, is_same_path
 
 cmd_name = "reinit"

@@ -15,11 +15,13 @@ class Status:
     def __str__(self) -> str:
         return STATUS_STRINGS[self.id]
     
-    def from_str(self, status: str) -> Status:
+    @staticmethod
+    def from_str(status: str) -> Status:
         assert isinstance(status, str)
-        assert status in STATUS_STRINGS, f"Status '{status}' is not a valid status"
-        self.id = STATUS_STRINGS.index(status)
-        return self
+        if status not in STATUS_STRINGS:
+            raise ValueError(f"Status '{status}' is not a valid status")
+        
+        return Status(STATUS_STRINGS.index(status))
     
     def to_str(self) -> str:
         return str(self)
@@ -30,7 +32,7 @@ class Status:
     def __ne__(self, s: Status) -> bool:
         return STATUS_STRINGS[s.id] != STATUS_STRINGS[s.id]
 
-PLANNED  = Status().from_str("planned")
-WATCHING = Status().from_str("watching")
-DROPPED  = Status().from_str("dropped")
-FINISHED = Status().from_str("finished")
+PLANNED  = Status.from_str("planned")
+WATCHING = Status.from_str("watching")
+DROPPED  = Status.from_str("dropped")
+FINISHED = Status.from_str("finished")

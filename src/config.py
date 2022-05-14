@@ -25,6 +25,7 @@ DEFAULTS: dict[str, str] = {
 
 def prompt_create_config() -> None:
     print("First time configuration needed. By pressing enter you accept the default.\n")
+
     config = DEFAULTS.copy()
     for k, v in config.items():
         res = input(f"{k}: ({v}) ")
@@ -39,8 +40,10 @@ def prompt_create_config() -> None:
 def load_config() -> Config:
     if not os.path.exists(CONFIG_PATH):
         prompt_create_config()
+    
     with open(CONFIG_PATH, "r") as f:
         config = json.load(f)
+    
     return Config(config)
 
 def default_website(config: Config, full_title: str) -> str:

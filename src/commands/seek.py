@@ -1,7 +1,7 @@
 import os
 from src.args import ParsedArgs
 from src.config import Config
-from src.play_json import load_play_next, overwrite_play_json
+from src.play_next_obj import load_play_next, overwrite_play_json
 
 cmd_name = "seek"
 

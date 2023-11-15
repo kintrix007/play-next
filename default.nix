@@ -1,7 +1,7 @@
 { pkgs ? import <nixpkgs> {} }:
 
 let
-  myPython = (pkgs.python311.withPackages (ps: with ps; [colorama]));
+  myPython = (pkgs.python310.withPackages (ps: with ps; [colorama]));
 in
 pkgs.stdenv.mkDerivation rec {
   pname = "play-next";

@@ -12,9 +12,9 @@ pkgs.stdenv.mkDerivation rec {
   installPhase = ''
     mkdir -p $out/bin
 
-    cat > $out/bin/${pname} <<EOF
+    cp ${pkgs.writeShellScriptBin "play-next" ''
       ${myPython}/bin/python ${src}/main.py
-    EOF
+    ''}/bin/* $out/bin/
 
     chmod +x $out/bin/${pname}
   '';

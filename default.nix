@@ -16,7 +16,7 @@ pkgs.stdenv.mkDerivation rec {
   buildInputs = [ myPython ];
 
   play-next = pkgs.writeShellScriptBin "play-next" ''
-    ${myPython}/bin/python ${src}/main.py
+    ${myPython}/bin/python ${src}/main.py $@
   '';
 
   installPhase = ''

@@ -1,6 +1,9 @@
-__pycache__/
-.vscode/
+# Dev env
 .direnv/
-.envrc
 
+# Nix
 result
+
+# Haskell
+.stack-work/
+*~
